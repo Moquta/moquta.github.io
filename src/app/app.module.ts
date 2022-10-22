@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AdhanService } from './services/adhan.service';
+
 import { DisplayComponent } from './pages/display/display.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 

@@ -1,30 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AdhanService, IAdhanApiConfigCity } from 'src/app/services/adhan.service';
+
+import {
+  AdhanService,
+  IAdhanApiCityParams,
+  IPrayerTimesResponse,
+  IPrayerTimesYearData,
+} from 'src/app/service';
 
 @Component({
   selector: 'app-display',
   templateUrl: './display.component.html',
-  styleUrls: ['./display.component.scss']
+  styleUrls: ['./display.component.scss'],
 })
 export class DisplayComponent implements OnInit {
+  prayerTimes: IPrayerTimesResponse<IPrayerTimesYearData> | null = null;
 
-  prayerTimes: any;
-
-  constructor(private adhanApi: AdhanService) { }
+  constructor(private adhanApi: AdhanService) {}
 
   ngOnInit(): void {
-    const apiConfigDearborn: IAdhanApiConfigCity = {
+    const apiConfigDearborn: IAdhanApiCityParams = {
       city: 'Dearborn',
       state: 'MI',
       country: 'USA',
       method: 2,
-      annual: true
-    }
+      annual: true,
+    };
 
-    const adhanData: Observable<any> = this.adhanApi.getAnnualPrayerTimesForCity(apiConfigDearborn);
+    const adhanData$: Observable<IPrayerTimesResponse<IPrayerTimesYearData>> =
+      this.adhanApi.getPrayerTimesForYearByCity(apiConfigDearborn);
 
-    adhanData.subscribe(val =>
-      this.prayerTimes = val)
+    adhanData$.subscribe((val) => {
+      this.prayerTimes = val;
+      console.log(this.prayerTimes);
+    });
   }
 }
