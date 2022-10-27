@@ -57,9 +57,4 @@ export class AdhanService {
       IPrayerTimesResponse<IPrayerTimesYearData>
     >;
   }
-
-  // TODO: finish implementation
-  cacheData(key: string, data: any): void {}
-
-  getCachedData(key: string): any {}
 }

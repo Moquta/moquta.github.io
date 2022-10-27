@@ -6,7 +6,8 @@ import {
   IAdhanApiCityParams,
   IPrayerTimesResponse,
   IPrayerTimesYearData,
-} from 'src/app/service';
+} from 'src/app/services';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-display',
@@ -16,9 +17,14 @@ import {
 export class DisplayComponent implements OnInit {
   prayerTimes: IPrayerTimesResponse<IPrayerTimesYearData> | null = null;
 
-  constructor(private adhanApi: AdhanService) {}
+  constructor(
+    private adhanApi: AdhanService,
+    private cache: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
+    // TODO check and delete cache on january first
+
     const apiConfigDearborn: IAdhanApiCityParams = {
       city: 'Dearborn',
       state: 'MI',
@@ -27,12 +33,34 @@ export class DisplayComponent implements OnInit {
       annual: true,
     };
 
-    const adhanData$: Observable<IPrayerTimesResponse<IPrayerTimesYearData>> =
-      this.adhanApi.getPrayerTimesForYearByCity(apiConfigDearborn);
+    this.prayerTimes = this.getPrayerTimeData(apiConfigDearborn);
+  }
 
-    adhanData$.subscribe((val) => {
-      this.prayerTimes = val;
-      console.log(this.prayerTimes);
-    });
+  getPrayerTimeData(
+    apiParam: IAdhanApiCityParams
+  ): IPrayerTimesResponse<IPrayerTimesYearData> | null {
+    let prayerTimesData: IPrayerTimesResponse<IPrayerTimesYearData> | null =
+      null;
+    const cacheKey = JSON.stringify(apiParam);
+
+    let cachedData = this.cache.getCachedData(cacheKey);
+
+    if (cachedData != null) {
+      prayerTimesData = JSON.parse(
+        cachedData
+      ) as IPrayerTimesResponse<IPrayerTimesYearData>;
+    } else {
+      this.adhanApi
+        .getPrayerTimesForYearByCity(apiParam)
+        .subscribe((prayerTimes) => {
+          this.cache.cacheData<IPrayerTimesResponse<IPrayerTimesYearData>>(
+            cacheKey,
+            prayerTimes
+          );
+          prayerTimesData = prayerTimes;
+        });
+    }
+
+    return prayerTimesData;
   }
 }
