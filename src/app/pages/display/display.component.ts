@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import {
   AdhanService,
   IAdhanApiCityParams,
-  IPrayerTimesResponse,
+  IAdhanApiRepsonse,
   IPrayerTimesYearData,
 } from 'src/app/services';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
@@ -15,7 +15,7 @@ import { LocalStorageService } from 'src/app/services/local-storage/local-storag
   styleUrls: ['./display.component.scss'],
 })
 export class DisplayComponent implements OnInit {
-  prayerTimes: IPrayerTimesResponse<IPrayerTimesYearData> | null = null;
+  prayerTimes: IAdhanApiRepsonse<IPrayerTimesYearData> | null = null;
 
   constructor(
     private adhanApi: AdhanService,
@@ -34,33 +34,32 @@ export class DisplayComponent implements OnInit {
     };
 
     this.prayerTimes = this.getPrayerTimeData(apiConfigDearborn);
+    
+    this.adhanApi
+      .getHijriDate()
+      .then((data) => console.log(data.month.ar, data.day, data.year));
   }
 
   getPrayerTimeData(
     apiParam: IAdhanApiCityParams
-  ): IPrayerTimesResponse<IPrayerTimesYearData> | null {
-    let prayerTimesData: IPrayerTimesResponse<IPrayerTimesYearData> | null =
-      null;
+  ): IAdhanApiRepsonse<IPrayerTimesYearData> | null {
     const cacheKey = JSON.stringify(apiParam);
 
     let cachedData = this.cache.getCachedData(cacheKey);
 
-    if (cachedData != null) {
-      prayerTimesData = JSON.parse(
-        cachedData
-      ) as IPrayerTimesResponse<IPrayerTimesYearData>;
-    } else {
+    if (cachedData == null) {
       this.adhanApi
         .getPrayerTimesForYearByCity(apiParam)
         .subscribe((prayerTimes) => {
-          this.cache.cacheData<IPrayerTimesResponse<IPrayerTimesYearData>>(
+          this.cache.cacheData<IAdhanApiRepsonse<IPrayerTimesYearData>>(
             cacheKey,
             prayerTimes
           );
-          prayerTimesData = prayerTimes;
         });
     }
 
-    return prayerTimesData;
+    return JSON.parse(
+      this.cache.getCachedData(cacheKey) as string
+    ) as IAdhanApiRepsonse<IPrayerTimesYearData>;
   }
 }

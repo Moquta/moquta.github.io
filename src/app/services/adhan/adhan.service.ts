@@ -4,11 +4,13 @@ import { Observable } from 'rxjs';
 
 import {
   IAdhanApiCityParams,
-  IPrayerTimesResponse,
+  IAdhanApiRepsonse,
   IPrayerTimesYearData,
+  IDateData,
+  IDate,
 } from './adhan.model';
 
-const API_URL = 'http://api.aladhan.com/v1/';
+const API_BASE_URL = 'http://api.aladhan.com/v1/';
 
 const CURRENT_DATE = new Date();
 
@@ -31,19 +33,19 @@ export class AdhanService {
   constructor(private http: HttpClient) {}
 
   /**
-   * @author Anwar Musa, Elyas Musa
+   * @function getPrayerTimesForYearByCity
    * @param apiParams Configures the parameters - listed in {@link IAdhanApiCityParams} - to be sent with the API call.
-   * @returns Prayer times for the entire year specified in the parameters.
+   * @returns Observable containing prayer times for the entire year specified in the parameters.
    */
   getPrayerTimesForYearByCity(
     apiParams: IAdhanApiCityParams
-  ): Observable<IPrayerTimesResponse<IPrayerTimesYearData>> {
+  ): Observable<IAdhanApiRepsonse<IPrayerTimesYearData>> {
     // Start with default values and then overwrite with given values
     // Set annual to 'true' because annual data is promised
     apiParams = { ...DEFAULT_API_VALUES, ...apiParams };
     apiParams.annual = true;
 
-    const apiUrl = API_URL + 'calendarByCity';
+    const apiUrl = API_BASE_URL + 'calendarByCity';
     let adhanParameters = new HttpParams();
 
     for (let key of Object.keys(apiParams)) {
@@ -54,7 +56,33 @@ export class AdhanService {
     }
 
     return this.http.get(apiUrl, { params: adhanParameters }) as Observable<
-      IPrayerTimesResponse<IPrayerTimesYearData>
+      IAdhanApiRepsonse<IPrayerTimesYearData>
     >;
+  }
+
+  /**
+   * @function getHijriDate
+   * @param gregorianDate The gregorian date to convert to hijri - will default to current day
+   * @param hijriDateAdjustment Number of days to adjust hijri date(s). Example: 1 or 2 or -1 or -2
+   * @returns Promise containing the hjri date
+   */
+  async getHijriDate(
+    gregorianDate: Date = new Date(),
+    hijriDateAdjustment: number = 0
+  ): Promise<IDate> {
+    const formattedDate = `${gregorianDate.getDate()}-${gregorianDate.getMonth()}-${gregorianDate.getFullYear()}`;
+    const apiUrl =
+      API_BASE_URL +
+      'gToH?' +
+      new URLSearchParams({
+        date: formattedDate,
+        adjustment: hijriDateAdjustment.toString(),
+      });
+
+    let hijriDate: IAdhanApiRepsonse<IDateData> = await (
+      await fetch(apiUrl)
+    ).json();
+
+    return hijriDate.data.hijri;
   }
 }
