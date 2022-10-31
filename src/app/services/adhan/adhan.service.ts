@@ -8,17 +8,19 @@ import {
   IPrayerTimesYearData,
   IDateData,
   IDate,
+  IAdhanApiBaseParams,
 } from './adhan.model';
 
 const API_BASE_URL = 'http://api.aladhan.com/v1/';
 
 const CURRENT_DATE = new Date();
 
-const DEFAULT_API_VALUES = {
+const DEFAULT_API_VALUES: IAdhanApiBaseParams = {
+  adjustment: 0,
   annual: true,
-  hijriDateAdjustment: 0,
   iso8601: false,
   latitudeAdjustmentMethod: 1,
+  method: 2,
   midnightMode: 0,
   month: CURRENT_DATE.getMonth(),
   school: 0,
