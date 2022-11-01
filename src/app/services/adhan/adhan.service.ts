@@ -1,22 +1,25 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 import {
   IAdhanApiCityParams,
-  IPrayerTimesResponse,
+  IAdhanApiRepsonse,
   IPrayerTimesYearData,
+  IAdhanApiBaseParams,
 } from './adhan.model';
 
-const API_URL = 'http://api.aladhan.com/v1/';
+const API_BASE_URL = 'http://api.aladhan.com/v1/';
 
 const CURRENT_DATE = new Date();
 
-const DEFAULT_API_VALUES = {
+const DEFAULT_API_VALUES: IAdhanApiBaseParams = {
+  adjustment: 0,
   annual: true,
-  hijriDateAdjustment: 0,
   iso8601: false,
   latitudeAdjustmentMethod: 1,
+  method: 2,
   midnightMode: 0,
   month: CURRENT_DATE.getMonth(),
   school: 0,
@@ -28,33 +31,40 @@ const DEFAULT_API_VALUES = {
   providedIn: 'root',
 })
 export class AdhanService {
-  constructor(private http: HttpClient) {}
+  constructor(private cache: LocalStorageService) {}
 
   /**
-   * @author Anwar Musa, Elyas Musa
+   * @function getPrayerTimesForYearByCity
    * @param apiParams Configures the parameters - listed in {@link IAdhanApiCityParams} - to be sent with the API call.
-   * @returns Prayer times for the entire year specified in the parameters.
+   * @returns Promise containing prayer times for the entire year specified in the parameters.
    */
-  getPrayerTimesForYearByCity(
+  async getPrayerTimesForYearByCity(
     apiParams: IAdhanApiCityParams
-  ): Observable<IPrayerTimesResponse<IPrayerTimesYearData>> {
-    // Start with default values and then overwrite with given values
-    // Set annual to 'true' because annual data is promised
+  ): Promise<IAdhanApiRepsonse<IPrayerTimesYearData>> {
     apiParams = { ...DEFAULT_API_VALUES, ...apiParams };
     apiParams.annual = true;
 
-    const apiUrl = API_URL + 'calendarByCity';
-    let adhanParameters = new HttpParams();
+    const apiUrl =
+      API_BASE_URL +
+      'calendarByCity?' +
+      new URLSearchParams(JSON.parse(JSON.stringify(apiParams)));
 
-    for (let key of Object.keys(apiParams)) {
-      adhanParameters = adhanParameters.append(
-        key,
-        apiParams[key as keyof IAdhanApiCityParams] ?? ''
-      );
+    let cachedPrayerData = this.cache.getCachedData(apiUrl);
+
+    if (cachedPrayerData == null) {
+      fetch(apiUrl)
+        .then((res) => res.json())
+        .then((data: IAdhanApiRepsonse<IPrayerTimesYearData>) =>
+          this.cache.cacheData(apiUrl, JSON.stringify(data))
+        );
     }
 
-    return this.http.get(apiUrl, { params: adhanParameters }) as Observable<
-      IPrayerTimesResponse<IPrayerTimesYearData>
-    >;
+    let prayerTimesData: IAdhanApiRepsonse<IPrayerTimesYearData> = JSON.parse(
+      JSON.parse(this.cache.getCachedData(apiUrl) as string)
+    );
+
+    let prayerTimesPromise = Promise.resolve(prayerTimesData);
+
+    return prayerTimesPromise;
   }
 }

@@ -1,3 +1,15 @@
-<p>display works! hello</p>
+<div>
+  {{ now | date: "h:mm:ss a" }}
+</div>
 
-{{ prayerTimes | json}}
+<div *ngIf="todayPrayerData">
+  {{ todayPrayerData.timings.Isha }}
+
+  {{ todayPrayerData.date.hijri.day }}
+  {{ todayPrayerData.date.hijri.month.en }}
+  {{ todayPrayerData.date.hijri.year }}
+
+  {{ todayPrayerData.date.gregorian.month.en }}
+  {{ todayPrayerData.date.gregorian.day }}
+  {{ todayPrayerData.date.gregorian.year }}
+</div>
