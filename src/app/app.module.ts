@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 
 import { DisplayComponent } from './pages/display/display.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SettingsComponent } from './pages/settings/settings.component';
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
