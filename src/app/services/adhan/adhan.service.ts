@@ -1,13 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 import {
   IAdhanApiCityParams,
   IAdhanApiRepsonse,
   IPrayerTimesYearData,
-  IDateData,
-  IDate,
   IAdhanApiBaseParams,
 } from './adhan.model';
 
@@ -32,59 +31,40 @@ const DEFAULT_API_VALUES: IAdhanApiBaseParams = {
   providedIn: 'root',
 })
 export class AdhanService {
-  constructor(private http: HttpClient) {}
+  constructor(private cache: LocalStorageService) {}
 
   /**
    * @function getPrayerTimesForYearByCity
    * @param apiParams Configures the parameters - listed in {@link IAdhanApiCityParams} - to be sent with the API call.
-   * @returns Observable containing prayer times for the entire year specified in the parameters.
+   * @returns Promise containing prayer times for the entire year specified in the parameters.
    */
-  getPrayerTimesForYearByCity(
+  async getPrayerTimesForYearByCity(
     apiParams: IAdhanApiCityParams
-  ): Observable<IAdhanApiRepsonse<IPrayerTimesYearData>> {
-    // Start with default values and then overwrite with given values
-    // Set annual to 'true' because annual data is promised
+  ): Promise<IAdhanApiRepsonse<IPrayerTimesYearData>> {
     apiParams = { ...DEFAULT_API_VALUES, ...apiParams };
     apiParams.annual = true;
 
-    const apiUrl = API_BASE_URL + 'calendarByCity';
-    let adhanParameters = new HttpParams();
-
-    for (let key of Object.keys(apiParams)) {
-      adhanParameters = adhanParameters.append(
-        key,
-        apiParams[key as keyof IAdhanApiCityParams] ?? ''
-      );
-    }
-
-    return this.http.get(apiUrl, { params: adhanParameters }) as Observable<
-      IAdhanApiRepsonse<IPrayerTimesYearData>
-    >;
-  }
-
-  /**
-   * @function getHijriDate
-   * @param gregorianDate The gregorian date to convert to hijri - will default to current day
-   * @param hijriDateAdjustment Number of days to adjust hijri date(s). Example: 1 or 2 or -1 or -2
-   * @returns Promise containing the hjri date
-   */
-  async getHijriDate(
-    gregorianDate: Date = new Date(),
-    hijriDateAdjustment: number = 0
-  ): Promise<IDate> {
-    const formattedDate = `${gregorianDate.getDate()}-${gregorianDate.getMonth()}-${gregorianDate.getFullYear()}`;
     const apiUrl =
       API_BASE_URL +
-      'gToH?' +
-      new URLSearchParams({
-        date: formattedDate,
-        adjustment: hijriDateAdjustment.toString(),
-      });
+      'calendarByCity?' +
+      new URLSearchParams(JSON.parse(JSON.stringify(apiParams)));
 
-    let hijriDate: IAdhanApiRepsonse<IDateData> = await (
-      await fetch(apiUrl)
-    ).json();
+    let cachedPrayerData = this.cache.getCachedData(apiUrl);
 
-    return hijriDate.data.hijri;
+    if (cachedPrayerData == null) {
+      fetch(apiUrl)
+        .then((res) => res.json())
+        .then((data: IAdhanApiRepsonse<IPrayerTimesYearData>) =>
+          this.cache.cacheData(apiUrl, JSON.stringify(data))
+        );
+    }
+
+    let prayerTimesData: IAdhanApiRepsonse<IPrayerTimesYearData> = JSON.parse(
+      JSON.parse(this.cache.getCachedData(apiUrl) as string)
+    );
+
+    let prayerTimesPromise = Promise.resolve(prayerTimesData);
+
+    return prayerTimesPromise;
   }
 }

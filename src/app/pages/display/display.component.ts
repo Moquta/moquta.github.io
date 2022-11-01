@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import {
   AdhanService,
   IAdhanApiCityParams,
-  IAdhanApiRepsonse,
+  IPrayerTimesDayData,
   IPrayerTimesYearData,
 } from 'src/app/services';
-import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-display',
@@ -15,16 +13,17 @@ import { LocalStorageService } from 'src/app/services/local-storage/local-storag
   styleUrls: ['./display.component.scss'],
 })
 export class DisplayComponent implements OnInit {
-  prayerTimes: IAdhanApiRepsonse<IPrayerTimesYearData> | null = null;
+  today = new Date();
+  now = new Date();
+  todayPrayerData: IPrayerTimesDayData | null = null;
 
-  constructor(
-    private adhanApi: AdhanService,
-    private cache: LocalStorageService
-  ) {}
+  constructor(private adhanApi: AdhanService) {
+    setInterval(() => {
+      this.now = new Date();
+    }, 1000);
+  }
 
   ngOnInit(): void {
-    // TODO check and delete cache on january first
-
     const apiConfigDearborn: IAdhanApiCityParams = {
       city: 'Dearborn',
       state: 'MI',
@@ -33,33 +32,13 @@ export class DisplayComponent implements OnInit {
       annual: true,
     };
 
-    this.prayerTimes = this.getPrayerTimeData(apiConfigDearborn);
-    
     this.adhanApi
-      .getHijriDate()
-      .then((data) => console.log(data.month.ar, data.day, data.year));
-  }
-
-  getPrayerTimeData(
-    apiParam: IAdhanApiCityParams
-  ): IAdhanApiRepsonse<IPrayerTimesYearData> | null {
-    const cacheKey = JSON.stringify(apiParam);
-
-    let cachedData = this.cache.getCachedData(cacheKey);
-
-    if (cachedData == null) {
-      this.adhanApi
-        .getPrayerTimesForYearByCity(apiParam)
-        .subscribe((prayerTimes) => {
-          this.cache.cacheData<IAdhanApiRepsonse<IPrayerTimesYearData>>(
-            cacheKey,
-            prayerTimes
-          );
-        });
-    }
-
-    return JSON.parse(
-      this.cache.getCachedData(cacheKey) as string
-    ) as IAdhanApiRepsonse<IPrayerTimesYearData>;
+      .getPrayerTimesForYearByCity(apiConfigDearborn)
+      .then((response) => {
+        this.todayPrayerData =
+          response.data[
+            (this.today.getMonth() + 1) as keyof IPrayerTimesYearData
+          ][this.today.getDate() - 1];
+      });
   }
 }
