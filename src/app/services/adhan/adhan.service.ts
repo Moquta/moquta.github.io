@@ -14,7 +14,7 @@ const API_BASE_URL = 'http://api.aladhan.com/v1/';
 
 const CURRENT_DATE = new Date();
 
-const DEFAULT_API_VALUES: IAdhanApiBaseParams = {
+export const DEFAULT_API_VALUES: IAdhanApiBaseParams = {
   adjustment: 0,
   annual: true,
   iso8601: false,
@@ -52,17 +52,16 @@ export class AdhanService {
     let cachedPrayerData = this.cache.getCachedData(apiUrl);
 
     if (cachedPrayerData == null) {
-      fetch(apiUrl)
+      await fetch(apiUrl)
         .then((res) => res.json())
         .then((data: IAdhanApiRepsonse<IPrayerTimesYearData>) =>
-          this.cache.cacheData(apiUrl, JSON.stringify(data))
+          this.cache.cacheData(apiUrl, data)
         );
     }
 
     let prayerTimesData: IAdhanApiRepsonse<IPrayerTimesYearData> = JSON.parse(
-      JSON.parse(this.cache.getCachedData(apiUrl) as string)
+      this.cache.getCachedData(apiUrl) as string
     );
-
     let prayerTimesPromise = Promise.resolve(prayerTimesData);
 
     return prayerTimesPromise;

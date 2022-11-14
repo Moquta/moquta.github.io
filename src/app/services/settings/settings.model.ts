@@ -28,7 +28,7 @@ export interface IMoqutaSettings {
     Maghrib: string;
     Isha: string;
   };
-  MasjidLocation: string;
+  MasjidSubheader: string;
   MasjidLogoSrc: string;
   MasjidName: string;
   MasjidPrimaryColor: string;
