@@ -4,10 +4,15 @@ $full-height: calc(100%);
 $column: calc($full-height / 12);
 
 .masjid-container {
+  .logo-image{
+    background-image: url('https://lh5.googleusercontent.com/-WkatKbIJ6zU/AAAAAAAAAAI/AAAAAAAAAAA/SP_9_6pDNUg/s44-p-k-no-ns-nd/photo.jpg');
+    background-size: cover;
+  }
   height: calc($column - 2 * $padding - $margin);
   padding: $padding;
   margin: $margin;
 }
+
 
 .date-container {
   height: calc(2 * $column - 2 * $padding - $margin);
@@ -26,3 +31,4 @@ $column: calc($full-height / 12);
   padding: $padding;
   margin: $margin;
 }
+

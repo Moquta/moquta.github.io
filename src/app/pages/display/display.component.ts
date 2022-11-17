@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Variable } from 'eslint-scope';
 
 import {
   AdhanService,
@@ -16,6 +17,9 @@ export class DisplayComponent implements OnInit {
   today = new Date();
   now = new Date();
   todayPrayerData: IPrayerTimesDayData | null = null;
+  prayerLocation: IAdhanApiCityParams | null = null;
+  masjidName: any ;
+
 
   constructor(private adhanApi: AdhanService) {
     setInterval(() => {
@@ -31,7 +35,9 @@ export class DisplayComponent implements OnInit {
       method: 2,
       annual: true,
     };
-
+    const setMasjidName: any = {
+      name: 'American Moslem Society'
+    }
     this.adhanApi
       .getPrayerTimesForYearByCity(apiConfigDearborn)
       .then((response) => {
@@ -40,5 +46,9 @@ export class DisplayComponent implements OnInit {
             (this.today.getMonth() + 1) as keyof IPrayerTimesYearData
           ][this.today.getDate() - 1];
       });
+      this.masjidName = setMasjidName
+      this.prayerLocation = apiConfigDearborn;
+      
+
   }
 }
