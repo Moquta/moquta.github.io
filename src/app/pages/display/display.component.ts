@@ -15,13 +15,10 @@ import {
   styleUrls: ['./display.component.scss'],
 })
 export class DisplayComponent implements OnInit {
-  settings: IMoqutaSettings | null = null;
-
-  today = new Date();
   now = new Date();
+  settings: IMoqutaSettings | null = null;
+  today = new Date();
   todayPrayerData: IPrayerTimesDayData | null = null;
-  prayerLocation: IAdhanApiCityParams | null = null;
-  masjidName: any;
 
   constructor(
     private adhanApi: AdhanService,
@@ -35,25 +32,14 @@ export class DisplayComponent implements OnInit {
   ngOnInit(): void {
     this.settings = this.settingsService.getSettings();
 
-    const apiConfigDearborn: IAdhanApiCityParams = {
-      city: 'Dearborn',
-      state: 'MI',
-      country: 'USA',
-      method: 2,
-      annual: true,
-    };
-    const setMasjidName: any = {
-      name: 'American Moslem Society',
-    };
-    this.adhanApi
-      .getPrayerTimesForYearByCity(apiConfigDearborn)
-      .then((response) => {
-        this.todayPrayerData =
-          response.data[
-            (this.today.getMonth() + 1) as keyof IPrayerTimesYearData
-          ][this.today.getDate() - 1];
-      });
-    this.masjidName = setMasjidName;
-    this.prayerLocation = apiConfigDearborn;
+    const apiConfig: IAdhanApiCityParams = this.settings.ApiParams;
+
+    this.adhanApi.getPrayerTimesForYearByCity(apiConfig).then((response) => {
+      console.log(response);
+      this.todayPrayerData =
+        response.data[
+          (this.today.getMonth() + 1) as keyof IPrayerTimesYearData
+        ][this.today.getDate() - 1];
+    });
   }
 }

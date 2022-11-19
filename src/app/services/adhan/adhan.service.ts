@@ -55,15 +55,18 @@ export class AdhanService {
       await fetch(apiUrl)
         .then((res) => res.json())
         .then((data: IAdhanApiRepsonse<IPrayerTimesYearData>) =>
-          this.cache.cacheData(apiUrl, data)
+          this.cache.cacheData<IAdhanApiRepsonse<IPrayerTimesYearData>>(
+            apiUrl,
+            data
+          )
         );
     }
 
     let prayerTimesData: IAdhanApiRepsonse<IPrayerTimesYearData> = JSON.parse(
-      this.cache.getCachedData(apiUrl) as string
+      JSON.parse(this.cache.getCachedData(apiUrl) as string)
     );
+    
     let prayerTimesPromise = Promise.resolve(prayerTimesData);
-
     return prayerTimesPromise;
   }
 }
