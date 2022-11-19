@@ -5,11 +5,11 @@ import { IAdhanApiCityParams } from '../adhan/adhan.model';
  * @param AdhkarTimings - How long after iqama time until adhkar shall be displayed for each prayer.
  * @param ApiParams - All the parameters pertaining to getting the data from the API
  * @param IqamaTimings - How long after adhan time iqamah time should be
- * @param MasjidLocation - Name of the masjid's location
  * @param MasjidLogoSrc - Source for logo of the masjid (preferably a local image)
  * @param MasjidName - Name of the masjid
  * @param MasjidPrimaryColor - Primary color for the masjid
  * @param MasjidSecondaryColor - Secondary color for the masjid
+ * @param MasjidSubheader - Name of the masjid's location
  */
 export interface IMoqutaSettings {
   AdditionalInfo: Array<string>;
@@ -28,9 +28,9 @@ export interface IMoqutaSettings {
     Maghrib: string;
     Isha: string;
   };
-  MasjidSubheader: string;
   MasjidLogoSrc: string;
   MasjidName: string;
   MasjidPrimaryColor: string;
   MasjidSecondaryColor: string;
+  MasjidSubheader: string;
 }

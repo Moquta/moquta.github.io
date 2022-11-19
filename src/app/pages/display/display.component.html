@@ -14,11 +14,13 @@
   {{ todayPrayerData.date.gregorian.year }}
 </div> -->
 
-<mat-card class="masjid-container">
+<mat-card class="masjid-info-container">
   <mat-card-header>
-    <div mat-card-avatar class="logo-image"></div>
-    <mat-card-title>{{masjidName?.name}}</mat-card-title>
-    <mat-card-subtitle>{{prayerLocation?.city}}, {{prayerLocation?.state}}</mat-card-subtitle>
+    <div mat-card-avatar>
+      <img [src]="settings?.MasjidLogoSrc" alt="Masjid Logo">
+    </div>
+    <mat-card-title>{{settings?.MasjidName}}</mat-card-title>
+    <mat-card-subtitle>{{settings?.MasjidSubheader}}</mat-card-subtitle>
   </mat-card-header>
   
 </mat-card>
