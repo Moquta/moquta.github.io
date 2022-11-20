@@ -3,8 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import {
   AdhanService,
   IAdhanApiCityParams,
+  IMoqutaSettings,
   IPrayerTimesDayData,
   IPrayerTimesYearData,
+  SettingsService,
 } from 'src/app/services';
 
 @Component({
@@ -13,32 +15,31 @@ import {
   styleUrls: ['./display.component.scss'],
 })
 export class DisplayComponent implements OnInit {
-  today = new Date();
   now = new Date();
+  settings: IMoqutaSettings | null = null;
+  today = new Date();
   todayPrayerData: IPrayerTimesDayData | null = null;
 
-  constructor(private adhanApi: AdhanService) {
+  constructor(
+    private adhanApi: AdhanService,
+    private settingsService: SettingsService
+  ) {
     setInterval(() => {
       this.now = new Date();
     }, 1000);
   }
 
   ngOnInit(): void {
-    const apiConfigDearborn: IAdhanApiCityParams = {
-      city: 'Dearborn',
-      state: 'MI',
-      country: 'USA',
-      method: 2,
-      annual: true,
-    };
+    this.settings = this.settingsService.getSettings();
 
-    this.adhanApi
-      .getPrayerTimesForYearByCity(apiConfigDearborn)
-      .then((response) => {
-        this.todayPrayerData =
-          response.data[
-            (this.today.getMonth() + 1) as keyof IPrayerTimesYearData
-          ][this.today.getDate() - 1];
-      });
+    const apiConfig: IAdhanApiCityParams = this.settings.ApiParams;
+
+    this.adhanApi.getPrayerTimesForYearByCity(apiConfig).then((response) => {
+      console.log(response);
+      this.todayPrayerData =
+        response.data[
+          (this.today.getMonth() + 1) as keyof IPrayerTimesYearData
+        ][this.today.getDate() - 1];
+    });
   }
 }

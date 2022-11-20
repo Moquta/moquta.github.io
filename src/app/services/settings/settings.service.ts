@@ -26,7 +26,7 @@ const DEFAULT_SETTINGS: IMoqutaSettings = {
     Isha: '10',
   },
   MasjidSubheader: 'Dearborn, MI',
-  MasjidLogoSrc: 'string',
+  MasjidLogoSrc: 'assets/logo.png',
   MasjidName: 'American Moslem Society (Masjid Dearborn)',
   MasjidPrimaryColor: '#fff',
   MasjidSecondaryColor: '#000',
