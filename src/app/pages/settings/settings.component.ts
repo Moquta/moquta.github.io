@@ -11,11 +11,15 @@ import { IMoqutaSettings, SettingsService } from 'src/app/services';
 export class SettingsComponent implements OnInit {
   settings: IMoqutaSettings;
   prayerTimesTune: string[];
+  additionalInfo: { value: string }[];
 
   @ViewChild('form', { static: true }) ngForm!: NgForm;
   constructor(private settingsService: SettingsService) {
     this.settings = this.settingsService.getSettings();
     this.prayerTimesTune = this.settings.ApiParams.tune?.split(',') ?? [];
+    this.additionalInfo = this.settings.AdditionalInfo.map((value) => ({
+      value,
+    }));
   }
 
   ngOnInit(): void {
@@ -27,6 +31,9 @@ export class SettingsComponent implements OnInit {
   saveSettings(): void {
     if (this.settings) {
       this.settings.ApiParams.tune = this.prayerTimesTune.join(',');
+      this.settings.AdditionalInfo = this.additionalInfo.map(
+        (value) => value.value
+      );
       this.settingsService.saveSettings(this.settings);
     }
   }
