@@ -18,8 +18,8 @@ export class DisplayComponent implements OnInit {
   now = new Date();
   today = new Date();
   
-  settings?: IMoqutaSettings;
-  todayPrayerData?: IPrayerTimesDayData;
+  settings: IMoqutaSettings;
+  todayPrayerData!: IPrayerTimesDayData;
 
   constructor(
     private adhanApi: AdhanService,
@@ -28,11 +28,8 @@ export class DisplayComponent implements OnInit {
     setInterval(() => {
       this.now = new Date();
     }, 1000);
-  }
 
-  ngOnInit(): void {
     this.settings = this.settingsService.getSettings();
-
     const apiConfig: IAdhanApiCityParams = this.settings.ApiParams;
 
     this.adhanApi.getPrayerTimesForYearByCity(apiConfig).then((response) => {
@@ -41,5 +38,10 @@ export class DisplayComponent implements OnInit {
           (this.today.getMonth() + 1) as keyof IPrayerTimesYearData
         ][this.today.getDate() - 1];
     });
+  }
+
+  ngOnInit(): void {
+
+    
   }
 }

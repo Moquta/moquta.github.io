@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/display',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'display',
@@ -20,7 +20,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: DisplayComponent,
+    redirectTo: '/display',
+    pathMatch: 'full',
   },
 ];
 

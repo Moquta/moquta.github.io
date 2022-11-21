@@ -32,7 +32,7 @@ const DEFAULT_SETTINGS: IMoqutaSettings = {
   MasjidSecondaryColor: '#000000',
 };
 
-const SETTINGS_KEY = 'MoqutaSettings';
+export const SETTINGS_KEY = 'MoqutaSettings';
 @Injectable({
   providedIn: 'root',
 })
