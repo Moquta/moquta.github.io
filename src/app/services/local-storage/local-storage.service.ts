@@ -9,7 +9,7 @@ export class LocalStorageService {
     try {
       localStorage.setItem(key, JSON.stringify(data));
     } catch (e) {
-      this.deleteCacheExceptSettings();
+      this.deleteAllCacheExcept(SETTINGS_KEY);
       localStorage.setItem(key, JSON.stringify(data));
     }
   }
@@ -26,9 +26,11 @@ export class LocalStorageService {
     localStorage.clear();
   }
 
-  deleteCacheExceptSettings(): void{
-    let settings = this.getCachedData(SETTINGS_KEY)
-    this.deleteAllCachedData();
-    this.cacheData(SETTINGS_KEY, settings);
+  deleteAllCacheExcept(exceptionKey: string): void {
+    for (let item of Object.keys(localStorage)) {
+      if (item !== exceptionKey) {
+        localStorage.removeItem(item);
+      }
+    }
   }
 }
