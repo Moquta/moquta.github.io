@@ -16,9 +16,10 @@ import {
 })
 export class DisplayComponent implements OnInit {
   now = new Date();
-  settings: IMoqutaSettings | null = null;
   today = new Date();
-  todayPrayerData: IPrayerTimesDayData | null = null;
+  
+  settings?: IMoqutaSettings;
+  todayPrayerData?: IPrayerTimesDayData;
 
   constructor(
     private adhanApi: AdhanService,
@@ -35,7 +36,6 @@ export class DisplayComponent implements OnInit {
     const apiConfig: IAdhanApiCityParams = this.settings.ApiParams;
 
     this.adhanApi.getPrayerTimesForYearByCity(apiConfig).then((response) => {
-      console.log(response);
       this.todayPrayerData =
         response.data[
           (this.today.getMonth() + 1) as keyof IPrayerTimesYearData

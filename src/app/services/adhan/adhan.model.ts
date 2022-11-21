@@ -8,7 +8,7 @@
  * @param month A gregorian calendar month. Example: 8 or 08 for August.
  * @param school 0 for Shafi (or the standard way), 1 for Hanafi. If you leave this empty, it defaults to Shafii.
  * @param shafaq Which Shafaq to use if the method is Moonsighting Commitee Worldwide. Acceptable options are 'general', 'ahmer' and 'abyad'. Defaults to 'general'.
- * @param tune Comma Separated String of integers to offset timings returned by the API in minutes. See https://aladhan.com/calculation-methods
+ * @param tune Comma Separated String of integers to offset timings returned by the API in minutes. Accepts 9 comma separated numbers for (imsak, fajr, sunrise, dhuhr, asr, maghrib, sunset, isha, midnight)
  * @param year A gregorian calendar year. Example: 2022.
  */
 export interface IAdhanApiBaseParams {

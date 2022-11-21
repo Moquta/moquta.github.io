@@ -1,1 +1,332 @@
-<p>settings works!</p>
+<div class="flex flex-row justify-content-between align-content-center">
+  <button mat-stroked-button class="align-self-start m-3" routerLink="display">
+    &lt; Display
+  </button>
+  <h1 class="align-self-center m-0">Moquta Settings</h1>
+  <span></span>
+</div>
+
+<form #form="ngForm" class="flex flex-column m-3">
+  <section class="flex flex-column lg:flex-row mt-4">
+    <div class="section-description">
+      <h2>Masjid Settings</h2>
+      <p class="hidden lg:flex">
+        Select the settings to personalize Moquta to fit the brand of your
+        masjid.
+      </p>
+    </div>
+    <div class="flex flex-wrap flex-column flex-grow-1 section-settings">
+      <mat-form-field appearance="fill" class="m-3">
+        <mat-label>Logo</mat-label>
+        <input
+          matInput
+          type="text"
+          name="logo"
+          [(ngModel)]="settings.MasjidLogoSrc"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="m-3">
+        <mat-label>Masjid Name</mat-label>
+        <input
+          matInput
+          type="text"
+          name="masjidName"
+          [(ngModel)]="settings.MasjidName"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="m-3">
+        <mat-label>Masjid Subheader</mat-label>
+        <input
+          matInput
+          type="text"
+          name="masjidSubheader"
+          [(ngModel)]="settings.MasjidSubheader"
+        />
+      </mat-form-field>
+
+      <div class="flex">
+        <mat-form-field appearance="fill" class="m-3 flex-grow-1">
+          <mat-label>Primary Color</mat-label>
+          <input
+            matInput
+            type="color"
+            name="masjidPrimaryColor"
+            [(ngModel)]="settings.MasjidPrimaryColor"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="m-3 flex-grow-1">
+          <mat-label>Secondary Color</mat-label>
+          <input
+            matInput
+            type="color"
+            name="masjidSecondaryColor"
+            [(ngModel)]="settings.MasjidSecondaryColor"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="flex flex-column lg:flex-row mt-4">
+    <div class="section-description">
+      <h2>Time Adjustment</h2>
+      <p class="hidden lg:flex">
+        Change settings to adjust hijri date and timings for prayer, iqamah, and
+        adkhar.
+      </p>
+    </div>
+    <div class="flex flex-column flex-grow-1 section-settings">
+      <div class="flex flex-nowrap flex-row flex-1">
+        <mat-form-field appearance="fill" class="m-3">
+          <mat-label>Hijri Date Adjustment</mat-label>
+          <input
+            matInput
+            type="number"
+            name="hijriDateAdjustment"
+            [(ngModel)]="settings.ApiParams.adjustment"
+          />
+        </mat-form-field>
+      </div>
+      <div class="flex flex-nowrap flex-row flex-1">
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Fajr Prayer</mat-label>
+          <input
+            matInput
+            type="number"
+            name="fajrPrayerAdjust"
+            [(ngModel)]="prayerTimesTune[1]"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Fajr Iqamah</mat-label>
+          <input
+            matInput
+            type="number"
+            name="fajrIqamahAdjust"
+            [(ngModel)]="settings.IqamaTimings.Fajr"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Fajr Adhkar</mat-label>
+          <input
+            matInput
+            type="number"
+            name="fajrAdhkarAdjust"
+            [(ngModel)]="settings.AdhkarTimings.Fajr"
+          />
+        </mat-form-field>
+      </div>
+      <div class="flex flex-nowrap flex-row flex-1">
+        <mat-form-field appearance="fill" class="m-3">
+          <mat-label>Sunrise Time</mat-label>
+          <input
+            matInput
+            type="number"
+            name="sunriseTimeAdjust"
+            [(ngModel)]="prayerTimesTune[2]"
+          />
+        </mat-form-field>
+      </div>
+      <div class="flex flex-nowrap flex-row flex-1">
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Dhuhr Prayer</mat-label>
+          <input
+            matInput
+            type="number"
+            name="dhuhrPrayerAdjust"
+            [(ngModel)]="prayerTimesTune[3]"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Dhuhr Iqamah</mat-label>
+          <input
+            matInput
+            type="number"
+            name="dhuhrIqamahAdjust"
+            [(ngModel)]="settings.IqamaTimings.Dhuhr"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Dhuhr Adhkar</mat-label>
+          <input
+            matInput
+            type="number"
+            name="dhuhrAdhkarAdjust"
+            [(ngModel)]="settings.AdhkarTimings.Dhuhr"
+          />
+        </mat-form-field>
+      </div>
+      <div class="flex flex-nowrap flex-row flex-1">
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Asr Prayer</mat-label>
+          <input
+            matInput
+            type="number"
+            name="asrPrayerAdjust"
+            [(ngModel)]="prayerTimesTune[4]"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Asr Iqamah</mat-label>
+          <input
+            matInput
+            type="number"
+            name="asrIqamahAdjust"
+            [(ngModel)]="settings.IqamaTimings.Asr"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Asr Adhkar</mat-label>
+          <input
+            matInput
+            type="number"
+            name="asrAdhkarAdjust"
+            [(ngModel)]="settings.AdhkarTimings.Asr"
+          />
+        </mat-form-field>
+      </div>
+      <div class="flex flex-nowrap flex-row flex-1">
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Maghrib Prayer</mat-label>
+          <input
+            matInput
+            type="number"
+            name="maghribPrayerAdjust"
+            [(ngModel)]="prayerTimesTune[5]"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Maghrib Iqamah</mat-label>
+          <input
+            matInput
+            type="number"
+            name="maghribIqamahAdjust"
+            [(ngModel)]="settings.IqamaTimings.Maghrib"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Maghrib Adhkar</mat-label>
+          <input
+            matInput
+            type="number"
+            name="maghribAdhkarAdjust"
+            [(ngModel)]="settings.AdhkarTimings.Maghrib"
+          />
+        </mat-form-field>
+      </div>
+      <div class="flex flex-nowrap flex-row flex-1">
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Isha Prayer</mat-label>
+          <input
+            matInput
+            type="number"
+            name="ishaPrayerAdjust"
+            [(ngModel)]="prayerTimesTune[8]"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Isha Iqamah</mat-label>
+          <input
+            matInput
+            type="number"
+            name="ishaIqamahAdjust"
+            [(ngModel)]="settings.IqamaTimings.Isha"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Isha Adhkar</mat-label>
+          <input
+            matInput
+            type="number"
+            name="ishaAdhkarAdjust"
+            [(ngModel)]="settings.AdhkarTimings.Isha"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </section>
+
+  <mat-divider></mat-divider>
+
+  <section class="flex flex-column lg:flex-row mt-4">
+    <div class="section-description">
+      <h2>Calculation Methods</h2>
+      <p class="hidden lg:flex">
+        Change settings used to calculate prayer timings.
+      </p>
+    </div>
+    <div class="flex flex-column flex-grow-1 section-settings">
+      <div class="flex flex-nowrap flex-row flex-1">
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Prayer Calculation School</mat-label>
+          <mat-select name="school" [(ngModel)]="settings.ApiParams.school">
+            <mat-option value="0">Shafi</mat-option>
+            <mat-option value="1">Hanafi</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="m-3 flex-1">
+          <mat-label>Prayer Calculation Method</mat-label>
+          <mat-select name="method" [(ngModel)]="settings.ApiParams.method">
+            <mat-option value="13"
+              >Diyanet İşleri Başkanlığı, Turkey</mat-option
+            >
+            <mat-option value="5"
+              >Egyptian General Authority of Survey</mat-option
+            >
+            <mat-option value="8">Gulf Region</mat-option>
+            <mat-option value="7"
+              >Institute of Geophysics, University of Tehran</mat-option
+            >
+            <mat-option value="2"
+              >Islamic Society of North America (ISNA)</mat-option
+            >
+            <mat-option value="9">Kuwait</mat-option>
+            <mat-option value="11"
+              >Majlis Ugama Islam Singapura, Singapore</mat-option
+            >
+            <mat-option value="15"
+              >Moonsighting Committee Worldwide (Moonsighting.com)</mat-option
+            >
+            <mat-option value="3">Muslim World League</mat-option>
+            <mat-option value="10">Qatar</mat-option>
+            <mat-option value="14"
+              >Spiritual Administration of Muslims of Russia</mat-option
+            >
+            <mat-option value="4">Umm Al-Qura University, Makkah</mat-option>
+            <mat-option value="12"
+              >Union Organization Islamic de France</mat-option
+            >
+            <mat-option value="1"
+              >University of Islamic Sciences, Karachi</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          *ngIf="settings.ApiParams.method == 15"
+          appearance="fill"
+          class="m-3 flex-1"
+        >
+          <mat-label>Shafaq</mat-label>
+          <mat-select name="shafaq" [(ngModel)]="settings.ApiParams.shafaq">
+            <mat-option value="general">General</mat-option>
+            <mat-option value="ahmer">Ahmer (Red)</mat-option>
+            <mat-option value="abyad">Abyad (White)</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </section>
+  <button
+    mat-stroked-button
+    color="warn"
+    class="align-self-start mb-3"
+    (click)="resetSettings()"
+  >
+    Reset Settings
+  </button>
+</form>

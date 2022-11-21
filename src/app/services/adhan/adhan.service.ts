@@ -49,6 +49,8 @@ export class AdhanService {
       'calendarByCity?' +
       new URLSearchParams(JSON.parse(JSON.stringify(apiParams)));
 
+      console.log(apiUrl);
+
     let cachedPrayerData = this.cache.getCachedData(apiUrl);
 
     if (cachedPrayerData == null) {
@@ -63,9 +65,8 @@ export class AdhanService {
     }
 
     let prayerTimesData: IAdhanApiRepsonse<IPrayerTimesYearData> = JSON.parse(
-      JSON.parse(this.cache.getCachedData(apiUrl) as string)
+      this.cache.getCachedData(apiUrl) as string
     );
-    
     let prayerTimesPromise = Promise.resolve(prayerTimesData);
     return prayerTimesPromise;
   }

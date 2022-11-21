@@ -22,14 +22,14 @@ const DEFAULT_SETTINGS: IMoqutaSettings = {
     Fajr: '15',
     Dhuhr: '10',
     Asr: '10',
-    Maghrib: '10',
-    Isha: '10',
+    Maghrib: '5',
+    Isha: '5',
   },
   MasjidSubheader: 'Dearborn, MI',
   MasjidLogoSrc: 'assets/logo.png',
   MasjidName: 'American Moslem Society (Masjid Dearborn)',
-  MasjidPrimaryColor: '#fff',
-  MasjidSecondaryColor: '#000',
+  MasjidPrimaryColor: '#ffffff',
+  MasjidSecondaryColor: '#000000',
 };
 
 const SETTINGS_KEY = 'MoqutaSettings';
@@ -49,5 +49,9 @@ export class SettingsService {
     );
 
     return { ...DEFAULT_SETTINGS, ...cachedSettings };
+  }
+
+  resetSettings(): void {
+    this.cache.deleteCachedDataValue(SETTINGS_KEY);
   }
 }
