@@ -1,14 +1,14 @@
 <div class="flex flex-wrap p-4 h-full">
   <div class="flex col-12 m-1 shadow-5" style="height: 160px">
     <div class="col-2">
-      <img class="col-9" [src]="settings?.MasjidLogoSrc" alt="Masjid Logo" />
+      <img class="col-9" [src]="settings.MasjidLogoSrc" alt="Masjid Logo" routerLink="/settings" />
     </div>
     <div class="flex flex-wrap col-10 align-content-center">
       <div class="col-12 text-4xl font-bold">
-        {{ settings?.MasjidName }}
+        {{ settings.MasjidName }}
       </div>
       <div class="col-12 text-3xl text-black-alpha-60">
-        {{ settings?.MasjidSubheader }}
+        {{ settings.MasjidSubheader }}
       </div>
     </div>
   </div>
@@ -56,7 +56,7 @@
   <div class="flex shadow-5 col-12 m-1" style="height: 1120px"></div>
 
   <div class="flex flex-wrap shadow-5 col-12 m-1" style="height: 320px">
-    <div *ngFor="let info of settings?.AdditionalInfo" class="flex flex-wrap text-4xl col-12">
+    <div *ngFor="let info of settings.AdditionalInfo" class="flex flex-wrap text-4xl col-12">
       {{ info }}
     </div>
   </div>
