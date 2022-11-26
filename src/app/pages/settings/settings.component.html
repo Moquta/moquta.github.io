@@ -380,7 +380,7 @@
         <div class="flex flex-nowrap flex-row flex-1">
           <mat-form-field appearance="outline" class="m-1 flex-1">
             <mat-label>Country</mat-label>
-            <mat-select name="country" [(ngModel)]="settings.ApiParams.country">
+            <mat-select name="country" [(ngModel)]="settings.ApiParams.country" (valueChange)="settings.ApiParams.state = ''">
               <mat-option
                 *ngFor="let country of getAllCountries()"
                 [value]="country.isoCode"
@@ -395,6 +395,7 @@
             <mat-select
               name="state"
               [(ngModel)]="settings.ApiParams.state"
+              (valueChange)="settings.ApiParams.city = ''"
               [disabled]="
                 !settings.ApiParams.country || settings.ApiParams.country == ''
               "
