@@ -4,6 +4,7 @@
       mat-stroked-button
       class="align-self-start m-3"
       routerLink="display"
+      (click)="saveSettings()"
     >
       &lt; Display
     </button>
@@ -155,6 +156,7 @@
               matInput
               type="number"
               name="fajrIqamahAdjust"
+              min="0"
               [(ngModel)]="settings.IqamaTimings.Fajr"
             />
           </mat-form-field>
@@ -164,6 +166,7 @@
               matInput
               type="number"
               name="fajrAdhkarAdjust"
+              min="0"
               [(ngModel)]="settings.AdhkarTimings.Fajr"
             />
           </mat-form-field>
@@ -195,6 +198,7 @@
               matInput
               type="number"
               name="dhuhrIqamahAdjust"
+              min="0"
               [(ngModel)]="settings.IqamaTimings.Dhuhr"
             />
           </mat-form-field>
@@ -204,6 +208,7 @@
               matInput
               type="number"
               name="dhuhrAdhkarAdjust"
+              min="0"
               [(ngModel)]="settings.AdhkarTimings.Dhuhr"
             />
           </mat-form-field>
@@ -224,6 +229,7 @@
               matInput
               type="number"
               name="asrIqamahAdjust"
+              min="0"
               [(ngModel)]="settings.IqamaTimings.Asr"
             />
           </mat-form-field>
@@ -233,6 +239,7 @@
               matInput
               type="number"
               name="asrAdhkarAdjust"
+              min="0"
               [(ngModel)]="settings.AdhkarTimings.Asr"
             />
           </mat-form-field>
@@ -253,6 +260,7 @@
               matInput
               type="number"
               name="maghribIqamahAdjust"
+              min="0"
               [(ngModel)]="settings.IqamaTimings.Maghrib"
             />
           </mat-form-field>
@@ -262,6 +270,7 @@
               matInput
               type="number"
               name="maghribAdhkarAdjust"
+              min="0"
               [(ngModel)]="settings.AdhkarTimings.Maghrib"
             />
           </mat-form-field>
@@ -282,6 +291,7 @@
               matInput
               type="number"
               name="ishaIqamahAdjust"
+              min="0"
               [(ngModel)]="settings.IqamaTimings.Isha"
             />
           </mat-form-field>
@@ -291,6 +301,7 @@
               matInput
               type="number"
               name="ishaAdhkarAdjust"
+              min="0"
               [(ngModel)]="settings.AdhkarTimings.Isha"
             />
           </mat-form-field>
@@ -363,6 +374,62 @@
               <mat-option value="general">General</mat-option>
               <mat-option value="ahmer">Ahmer (Red)</mat-option>
               <mat-option value="abyad">Abyad (White)</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-nowrap flex-row flex-1">
+          <mat-form-field appearance="outline" class="m-1 flex-1">
+            <mat-label>Country</mat-label>
+            <mat-select name="country" [(ngModel)]="settings.ApiParams.country">
+              <mat-option
+                *ngFor="let country of getAllCountries()"
+                [value]="country.isoCode"
+              >
+                {{ country.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="m-1 flex-1">
+            <mat-label>State</mat-label>
+            <mat-select
+              name="state"
+              [(ngModel)]="settings.ApiParams.state"
+              [disabled]="
+                !settings.ApiParams.country || settings.ApiParams.country == ''
+              "
+            >
+              <mat-option
+                *ngFor="
+                  let state of getStatesOfCountry(settings.ApiParams.country)
+                "
+                [value]="state.isoCode"
+              >
+                {{ state.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="m-1 flex-1">
+            <mat-label>City</mat-label>
+            <mat-select
+              name="city"
+              [(ngModel)]="settings.ApiParams.city"
+              [disabled]="
+                !settings.ApiParams.state || settings.ApiParams.state == ''
+              "
+            >
+              <mat-option
+                *ngFor="
+                  let city of getCitiesOfState(
+                    settings.ApiParams.country,
+                    settings.ApiParams.state
+                  )
+                "
+                [value]="city.name"
+              >
+                {{ city.name }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>

@@ -1,5 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+
+import { debounceTime, Subscription } from 'rxjs';
+import { Country, State, City } from 'country-state-city';
 
 import { IMoqutaSettings, SettingsService } from 'src/app/services';
 
@@ -8,7 +11,8 @@ import { IMoqutaSettings, SettingsService } from 'src/app/services';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
+  formChanges$?: Subscription;
   settings: IMoqutaSettings;
   prayerTimesTune: string[];
   additionalInfo: { value: string }[];
@@ -22,10 +26,20 @@ export class SettingsComponent implements OnInit {
     }));
   }
 
+  getAllCountries = Country.getAllCountries;
+  getStatesOfCountry = State.getStatesOfCountry;
+  getCitiesOfState = City.getCitiesOfState;
+
   ngOnInit(): void {
-    this.ngForm.form.valueChanges.subscribe((x) => {
-      this.saveSettings();
-    });
+    this.formChanges$ = this.ngForm.form.valueChanges
+      .pipe(debounceTime(500))
+      .subscribe(() => {
+        this.saveSettings();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.formChanges$?.unsubscribe();
   }
 
   saveSettings(): void {
