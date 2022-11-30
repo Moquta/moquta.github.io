@@ -1,30 +1,113 @@
-// $padding: 16px;
-// $margin: 8px;
-// $full-height: calc(100%);
-// $column: calc($full-height / 12);
+@mixin full-width {
+  grid-column-start: 1;
+  grid-column-end: -1;
+}
 
-// .masjid-container {
-//   height: calc($column - 2 * $padding - $margin);
-//   padding: $padding;
-//   margin: $margin;
-// }
+@mixin centered-flex-column {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 
+  & > * {
+    flex: 1 1 0;
+    display: inline-flex;
+    align-items: center;
+  }
+}
 
-// .date-container {
-//   height: calc(2 * $column - 2 * $padding - $margin);
-//   padding: $padding;
-//   margin: $margin;
-// }
+.grid-container {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr 1fr 6fr 2fr;
+  height: 100vh;
+  background-color: var(--surface-300);
+}
 
-// .timings-container {
-//   height: calc(7 * $column - 2 * $padding - $margin);
-//   padding: $padding;
-//   margin: $margin;
-// }
+.shadow {
+  @for $i from 1 through 8 {
+    &-#{$i} {
+      background-color: var(--surface-card);
+    }
+  }
+}
 
-// .info-container {
-//   height: calc(2 * $column - 2 * $padding - $margin);
-//   padding: $padding;
-//   margin: $margin;
-// }
+.header {
+  @include full-width;
+  display: flex;
 
+  &__masjid-name {
+    @include centered-flex-column;
+    flex: 1 1 0;
+    align-items: flex-start;
+  }
+}
+
+.date-g {
+  @include centered-flex-column;
+
+  grid-column: 1;
+  grid-row: 2 / 4;
+
+  span {
+    font-size: 12px;
+  }
+}
+
+.day {
+  @include centered-flex-column;
+
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.time {
+  @include centered-flex-column;
+
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.date-h {
+  @include centered-flex-column;
+
+  grid-column: 3;
+  grid-row: 2 / 4;
+}
+
+.prayers {
+  @include full-width;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-50);
+  gap: 0.5rem;
+
+  .prayers__row {
+    display: flex;
+    flex-direction: row;
+    font-size: 3rem;
+    padding: 1.5rem;
+
+    span {
+      flex: 1 1 0;
+
+      &:nth-child(2) {
+        text-align: center;
+      }
+
+      &:nth-child(3) {
+        text-align: end;
+      }
+    }
+
+    &:not(:first-child) {
+      align-items: center;
+      flex-grow: 1;
+    }
+  }
+}
+
+.additional-info {
+  @include full-width;
+  @include centered-flex-column;
+}
