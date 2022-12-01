@@ -11,7 +11,7 @@ import {
   IAdhanApiBaseParams,
 } from './adhan.model';
 
-const API_BASE_URL = 'http://api.aladhan.com/v1/';
+const API_BASE_URL = 'https://api.aladhan.com/v1/';
 
 const CURRENT_DATE = new Date();
 

@@ -1,5 +1,5 @@
 <main class="grid-container p-3">
-  <section class="header p-4 shadow-5">
+  <section class="header p-4 shadow-2">
     <img
       [src]="settings.MasjidLogoSrc"
       alt="Masjid Logo"
@@ -14,7 +14,7 @@
     </div>
   </section>
 
-  <section class="date-g p-4 shadow-5">
+  <section class="date-g p-4 shadow-2">
     <ng-container *ngIf="prayerData">
       <span class="text-6xl">{{ prayerData.date.gregorian.month.en }}</span>
       <span class="text-6xl">{{ prayerData.date.gregorian.day }}</span>
@@ -22,15 +22,15 @@
     </ng-container>
   </section>
 
-  <section class="day p-4 shadow-5">
+  <section class="day p-4 shadow-2">
     <div class="text-6xl">{{ now | date : "EEEE" }}</div>
   </section>
 
-  <section class="time p-4 shadow-5">
+  <section class="time p-4 shadow-2">
     <div class="text-6xl">{{ now | date : "h:mm:ss a" }}</div>
   </section>
 
-  <section class="date-h p-4 shadow-5">
+  <section class="date-h p-4 shadow-2">
     <ng-container *ngIf="prayerData">
       <span class="text-6xl">{{ prayerData.date.hijri.month.ar }}</span>
       <span class="text-6xl">{{ prayerData.date.hijri.day }}</span>
@@ -38,7 +38,7 @@
     </ng-container>
   </section>
 
-  <section class="prayers p-4 shadow-5">
+  <section class="prayers p-4 shadow-2">
     <div class="prayers__row">
       <span>Prayer</span>
       <span>Adhan</span>
@@ -92,7 +92,7 @@
     </div>
   </section>
 
-  <section class="additional-info p-4 shadow-5">
+  <section class="additional-info p-4 shadow-2">
     <span *ngFor="let info of settings.AdditionalInfo" class="text-7xl">
       {{ info }}
     </span>
