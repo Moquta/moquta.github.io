@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LocalStorageService } from '../local-storage/local-storage.service';
+import * as dayjs from 'dayjs'
 
 import {
   IAdhanApiCityParams,
@@ -70,4 +71,9 @@ export class AdhanService {
     let prayerTimesPromise = Promise.resolve(prayerTimesData);
     return prayerTimesPromise;
   }
+
+  iqamaTimeSetter(adthanTime: string, iqamaTime: string): string{
+    return dayjs(adthanTime.substring(0,5)).format('HH:mm')
+  }
+
 }

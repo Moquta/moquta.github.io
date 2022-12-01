@@ -7,9 +7,7 @@
       style="height: 150px; width: 150px"
     />
     <div class="header__masjid-name">
-      <span class="text-5xl font-bold">
-        {{ settings.MasjidName }}
-      </span>
+      <span class="text-5xl font-bold">{{ settings.MasjidName }}</span>
       <span class="text-5xl text-black-alpha-60">
         {{ settings.MasjidSubheader }}
       </span>
@@ -17,36 +15,26 @@
   </section>
 
   <section class="date-g p-4 shadow-5">
-    <ng-container *ngIf="todayPrayerData">
-      <span class="text-6xl">
-        {{ todayPrayerData.date.gregorian.month.en }}
-      </span>
-      <span class="text-6xl">
-        {{ todayPrayerData.date.gregorian.day }}
-      </span>
-      <span class="text-6xl">
-        {{ todayPrayerData.date.gregorian.year }}
-      </span>
+    <ng-container *ngIf="prayerData">
+      <span class="text-6xl">{{ prayerData.date.gregorian.month.en }}</span>
+      <span class="text-6xl">{{ prayerData.date.gregorian.day }}</span>
+      <span class="text-6xl">{{ prayerData.date.gregorian.year }}</span>
     </ng-container>
   </section>
 
   <section class="day p-4 shadow-5">
-    <div class="text-6xl">
-      {{ now | date: "EEEE" }}
-    </div>
+    <div class="text-6xl">{{ now | date : "EEEE" }}</div>
   </section>
 
   <section class="time p-4 shadow-5">
-    <div class="text-6xl">
-      {{ now | date: "h:mm:ss a" }}
-    </div>
+    <div class="text-6xl">{{ now | date : "h:mm:ss a" }}</div>
   </section>
 
   <section class="date-h p-4 shadow-5">
-    <ng-container *ngIf="todayPrayerData">
-      <span class="text-6xl">{{ todayPrayerData.date.hijri.month.ar }}</span>
-      <span class="text-6xl">{{ todayPrayerData.date.hijri.day }}</span>
-      <span class="text-6xl">{{ todayPrayerData.date.hijri.year }}</span>
+    <ng-container *ngIf="prayerData">
+      <span class="text-6xl">{{ prayerData.date.hijri.month.ar }}</span>
+      <span class="text-6xl">{{ prayerData.date.hijri.day }}</span>
+      <span class="text-6xl">{{ prayerData.date.hijri.year }}</span>
     </ng-container>
   </section>
 
@@ -58,32 +46,49 @@
     </div>
     <div class="prayers__row shadow-3">
       <span>Fajr</span>
-      <span>{{ todayPrayerData.timings.Fajr }}</span>
-      <span>Iqama</span>
+      <span>{{ formatAdhanTime(prayerData.timings.Fajr) }}</span>
+      <span>
+        {{ calcIqamaTime(prayerData.timings.Fajr, settings.IqamaTimings.Fajr) }}
+      </span>
     </div>
     <div class="prayers__row shadow-3">
       <span>Sunrise</span>
-      <span>{{ todayPrayerData.timings.Sunrise }}</span>
+      <span>{{ formatAdhanTime(prayerData.timings.Sunrise) }}</span>
     </div>
     <div class="prayers__row shadow-3">
       <span>Dhuhr</span>
-      <span>{{ todayPrayerData.timings.Dhuhr }}</span>
-      <span>Iqama</span>
+      <span>{{ formatAdhanTime(prayerData.timings.Dhuhr) }}</span>
+      <span>
+        {{
+          calcIqamaTime(prayerData.timings.Dhuhr, settings.IqamaTimings.Dhuhr)
+        }}
+      </span>
     </div>
     <div class="prayers__row shadow-3">
       <span>Asr</span>
-      <span>{{ todayPrayerData.timings.Asr }}</span>
-      <span>Iqama</span>
+      <span>{{ formatAdhanTime(prayerData.timings.Asr) }}</span>
+      <span>
+        {{ calcIqamaTime(prayerData.timings.Asr, settings.IqamaTimings.Asr) }}
+      </span>
     </div>
     <div class="prayers__row shadow-3">
       <span>Maghrib</span>
-      <span>{{ todayPrayerData.timings.Maghrib }}</span>
-      <span>Iqama</span>
+      <span>{{ formatAdhanTime(prayerData.timings.Maghrib) }}</span>
+      <span>
+        {{
+          calcIqamaTime(
+            prayerData.timings.Maghrib,
+            settings.IqamaTimings.Maghrib
+          )
+        }}
+      </span>
     </div>
     <div class="prayers__row shadow-3">
       <span>Isha</span>
-      <span>{{ todayPrayerData.timings.Isha }}</span>
-      <span>Iqama</span>
+      <span>{{ formatAdhanTime(prayerData.timings.Isha) }}</span>
+      <span>
+        {{ calcIqamaTime(prayerData.timings.Isha, settings.IqamaTimings.Isha) }}
+      </span>
     </div>
   </section>
 
