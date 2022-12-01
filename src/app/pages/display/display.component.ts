@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import * as dayjs from 'dayjs';
+
+var duration = require('dayjs/plugin/duration');
+
 import {
   AdhanService,
   IAdhanApiCityParams,
@@ -17,9 +21,9 @@ import {
 export class DisplayComponent implements OnInit {
   now = new Date();
   today = new Date();
-  
+
   settings: IMoqutaSettings;
-  todayPrayerData!: IPrayerTimesDayData;
+  prayerData!: IPrayerTimesDayData;
 
   constructor(
     private adhanApi: AdhanService,
@@ -33,15 +37,29 @@ export class DisplayComponent implements OnInit {
     const apiConfig: IAdhanApiCityParams = this.settings.ApiParams;
 
     this.adhanApi.getPrayerTimesForYearByCity(apiConfig).then((response) => {
-      this.todayPrayerData =
+      this.prayerData =
         response.data[
           (this.today.getMonth() + 1) as keyof IPrayerTimesYearData
         ][this.today.getDate() - 1];
     });
   }
 
-  ngOnInit(): void {
+  calcIqamaTime(adhanTime: string, iqamahOffset: string): string {
+    const adhanHM =
+      dayjs(this.today).format('YYYY-MM-DD').toString() +
+      ' ' +
+      adhanTime.substring(0, 5); 
+    return dayjs(adhanHM).add(+iqamahOffset, 'minute').format('hh:mm A').toString();
+  }
 
-    
+  formatAdhanTime(adhanTime: string): string {
+    const adhanHM =
+      dayjs(this.today).format('YYYY-MM-DD').toString() +
+      ' ' +
+      adhanTime.substring(0, 5);
+    return dayjs(adhanHM).format('hh:mm A').toString();
+  }
+
+  ngOnInit(): void {
   }
 }

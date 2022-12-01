@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import * as dayjs from 'dayjs'
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -15,6 +16,7 @@ import { AppComponent } from './app.component';
 
 import { DisplayComponent } from './pages/display/display.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+
 
 @NgModule({
   declarations: [AppComponent, DisplayComponent, SettingsComponent],
