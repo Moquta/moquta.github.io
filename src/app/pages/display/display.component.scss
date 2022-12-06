@@ -38,10 +38,19 @@
   @include full-width;
   display: flex;
 
+  &__masjid-logo {
+    cursor: pointer;
+    display: block;
+    height: auto;
+    max-height: 10rem;
+    width: auto;
+  }
+
   &__masjid-name {
     @include centered-flex-column;
     align-items: flex-start;
     flex: 1 1 0;
+    line-height: 1;
   }
 }
 
