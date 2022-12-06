@@ -15,7 +15,7 @@
   </section>
 
   <section class="date-g p-4 shadow-2">
-    <ng-container *ngIf="prayerData">
+    <ng-container *ngIf="prayerData; else loading">
       <span class="text-6xl">{{ prayerData.date.gregorian.month.en }}</span>
       <span class="text-6xl">{{ prayerData.date.gregorian.day }}</span>
       <span class="text-6xl">{{ prayerData.date.gregorian.year }}</span>
@@ -31,7 +31,7 @@
   </section>
 
   <section class="date-h p-4 shadow-2">
-    <ng-container *ngIf="prayerData">
+    <ng-container *ngIf="prayerData; else loading">
       <span class="text-6xl">{{ prayerData.date.hijri.month.ar }}</span>
       <span class="text-6xl">{{ prayerData.date.hijri.day }}</span>
       <span class="text-6xl">{{ prayerData.date.hijri.year }}</span>
@@ -39,57 +39,63 @@
   </section>
 
   <section class="prayers p-4 shadow-2">
-    <div class="prayers__row">
-      <span>Prayer</span>
-      <span>Adhan</span>
-      <span>Iqamah</span>
-    </div>
-    <div class="prayers__row shadow-3">
-      <span>Fajr</span>
-      <span>{{ formatAdhanTime(prayerData.timings.Fajr) }}</span>
-      <span>
-        {{ calcIqamaTime(prayerData.timings.Fajr, settings.IqamaTimings.Fajr) }}
-      </span>
-    </div>
-    <div class="prayers__row shadow-3">
-      <span>Sunrise</span>
-      <span>{{ formatAdhanTime(prayerData.timings.Sunrise) }}</span>
-    </div>
-    <div class="prayers__row shadow-3">
-      <span>Dhuhr</span>
-      <span>{{ formatAdhanTime(prayerData.timings.Dhuhr) }}</span>
-      <span>
-        {{
-          calcIqamaTime(prayerData.timings.Dhuhr, settings.IqamaTimings.Dhuhr)
-        }}
-      </span>
-    </div>
-    <div class="prayers__row shadow-3">
-      <span>Asr</span>
-      <span>{{ formatAdhanTime(prayerData.timings.Asr) }}</span>
-      <span>
-        {{ calcIqamaTime(prayerData.timings.Asr, settings.IqamaTimings.Asr) }}
-      </span>
-    </div>
-    <div class="prayers__row shadow-3">
-      <span>Maghrib</span>
-      <span>{{ formatAdhanTime(prayerData.timings.Maghrib) }}</span>
-      <span>
-        {{
-          calcIqamaTime(
-            prayerData.timings.Maghrib,
-            settings.IqamaTimings.Maghrib
-          )
-        }}
-      </span>
-    </div>
-    <div class="prayers__row shadow-3">
-      <span>Isha</span>
-      <span>{{ formatAdhanTime(prayerData.timings.Isha) }}</span>
-      <span>
-        {{ calcIqamaTime(prayerData.timings.Isha, settings.IqamaTimings.Isha) }}
-      </span>
-    </div>
+    <ng-container *ngIf="prayerData; else loading">
+      <div class="prayers__row">
+        <span>Prayer</span>
+        <span>Adhan</span>
+        <span>Iqamah</span>
+      </div>
+      <div class="prayers__row shadow-3">
+        <span>Fajr</span>
+        <span>{{ formatAdhanTime(prayerData.timings.Fajr) }}</span>
+        <span>
+          {{
+            calcIqamaTime(prayerData.timings.Fajr, settings.IqamaTimings.Fajr)
+          }}
+        </span>
+      </div>
+      <div class="prayers__row shadow-3">
+        <span>Sunrise</span>
+        <span>{{ formatAdhanTime(prayerData.timings.Sunrise) }}</span>
+      </div>
+      <div class="prayers__row shadow-3">
+        <span>Dhuhr</span>
+        <span>{{ formatAdhanTime(prayerData.timings.Dhuhr) }}</span>
+        <span>
+          {{
+            calcIqamaTime(prayerData.timings.Dhuhr, settings.IqamaTimings.Dhuhr)
+          }}
+        </span>
+      </div>
+      <div class="prayers__row shadow-3">
+        <span>Asr</span>
+        <span>{{ formatAdhanTime(prayerData.timings.Asr) }}</span>
+        <span>
+          {{ calcIqamaTime(prayerData.timings.Asr, settings.IqamaTimings.Asr) }}
+        </span>
+      </div>
+      <div class="prayers__row shadow-3">
+        <span>Maghrib</span>
+        <span>{{ formatAdhanTime(prayerData.timings.Maghrib) }}</span>
+        <span>
+          {{
+            calcIqamaTime(
+              prayerData.timings.Maghrib,
+              settings.IqamaTimings.Maghrib
+            )
+          }}
+        </span>
+      </div>
+      <div class="prayers__row shadow-3">
+        <span>Isha</span>
+        <span>{{ formatAdhanTime(prayerData.timings.Isha) }}</span>
+        <span>
+          {{
+            calcIqamaTime(prayerData.timings.Isha, settings.IqamaTimings.Isha)
+          }}
+        </span>
+      </div>
+    </ng-container>
   </section>
 
   <section class="additional-info p-4 shadow-2">
@@ -98,3 +104,9 @@
     </span>
   </section>
 </main>
+
+<ng-template #loading>
+  <div class="loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
