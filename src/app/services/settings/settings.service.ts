@@ -29,8 +29,8 @@ const DEFAULT_SETTINGS: IMoqutaSettings = {
   MasjidSubheader: 'Dearborn, MI',
   MasjidLogoSrc: 'assets/logo.png',
   MasjidName: 'American Moslem Society (Masjid Dearborn)',
-  MasjidPrimaryColor: '#ffffff',
-  MasjidSecondaryColor: '#000000',
+  MasjidPrimaryColor: '#650a13',
+  MasjidSecondaryColor: '#ffffff',
 };
 
 export const SETTINGS_KEY = 'MoqutaSettings';

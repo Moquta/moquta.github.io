@@ -23,9 +23,10 @@ export class DisplayComponent {
   settings: IMoqutaSettings;
   prayerData!: IPrayerTimesDayData;
 
+  // TODO? Is there a better, more efficient way to do this?
   get nextPrayerIndex(): number {
     let pIndex = 0;
-    let currentTime: number = +`${this.now.getHours()}${this.now.getMinutes()}`;
+    let currentTime: number = +dayjs(this.now).format('HHmm');
 
     if (
       currentTime <
@@ -91,6 +92,7 @@ export class DisplayComponent {
     this.retrievePrayerTimes();
 
     setInterval(() => {
+      // this.now = dayjs(this.now).add(1, 'hour').toDate();
       this.now = new Date();
       if (this.today.getDate() !== this.now.getDate()) {
         this.today = this.now;
@@ -110,6 +112,7 @@ export class DisplayComponent {
     });
   }
 
+  // TODO? should we make this generic (add minutes to time function instead of calcIqamaTime)
   calcIqamaTime(
     adhanTime: string,
     iqamahOffset: number,
@@ -123,6 +126,7 @@ export class DisplayComponent {
     return dayjs(adhanHM).add(iqamahOffset, 'minute').format(format).toString();
   }
 
+  // TODO? should we turn this into a pipe instead?
   formatAdhanTime(adhanTime: string, format: string = 'hh:mm A'): string {
     const adhanHM =
       dayjs(this.today).format('YYYY-MM-DD').toString() +
