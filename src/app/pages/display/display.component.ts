@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import * as dayjs from 'dayjs';
-
-var duration = require('dayjs/plugin/duration');
 
 import {
   AdhanService,
@@ -18,22 +16,90 @@ import {
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.scss'],
 })
-export class DisplayComponent implements OnInit {
+export class DisplayComponent {
   now = new Date();
   today = new Date();
 
   settings: IMoqutaSettings;
   prayerData!: IPrayerTimesDayData;
 
+  get nextPrayerIndex(): number {
+    let pIndex = 0;
+    let currentTime: number = +`${this.now.getHours()}${this.now.getMinutes()}`;
+
+    if (
+      currentTime <
+      +this.calcIqamaTime(
+        this.prayerData.timings.Fajr,
+        this.settings.IqamaTimings.Fajr + this.settings.AdhkarTimings.Fajr,
+        'HHmm'
+      )
+    ) {
+      pIndex = 0;
+    } else if (
+      currentTime <
+      +this.calcIqamaTime(this.prayerData.timings.Sunrise, 30, 'HHmm')
+    ) {
+      pIndex = 1;
+    } else if (
+      currentTime <
+      +this.calcIqamaTime(
+        this.prayerData.timings.Dhuhr,
+        this.settings.IqamaTimings.Dhuhr + this.settings.AdhkarTimings.Dhuhr,
+        'HHmm'
+      )
+    ) {
+      pIndex = 2;
+    } else if (
+      currentTime <
+      +this.calcIqamaTime(
+        this.prayerData.timings.Asr,
+        this.settings.IqamaTimings.Asr + this.settings.AdhkarTimings.Asr,
+        'HHmm'
+      )
+    ) {
+      pIndex = 3;
+    } else if (
+      currentTime <
+      +this.calcIqamaTime(
+        this.prayerData.timings.Maghrib,
+        this.settings.IqamaTimings.Maghrib +
+          this.settings.AdhkarTimings.Maghrib,
+        'HHmm'
+      )
+    ) {
+      pIndex = 4;
+    } else if (
+      currentTime <
+      +this.calcIqamaTime(
+        this.prayerData.timings.Isha,
+        this.settings.IqamaTimings.Isha + this.settings.AdhkarTimings.Isha,
+        'HHmm'
+      )
+    ) {
+      pIndex = 5;
+    }
+
+    return pIndex;
+  }
+
   constructor(
     private adhanApi: AdhanService,
     private settingsService: SettingsService
   ) {
+    this.settings = this.settingsService.getSettings();
+    this.retrievePrayerTimes();
+
     setInterval(() => {
       this.now = new Date();
+      if (this.today.getDate() !== this.now.getDate()) {
+        this.today = this.now;
+        this.retrievePrayerTimes();
+      }
     }, 1000);
+  }
 
-    this.settings = this.settingsService.getSettings();
+  retrievePrayerTimes() {
     const apiConfig: IAdhanApiCityParams = this.settings.ApiParams;
 
     this.adhanApi.getPrayerTimesForYearByCity(apiConfig).then((response) => {
@@ -44,22 +110,25 @@ export class DisplayComponent implements OnInit {
     });
   }
 
-  calcIqamaTime(adhanTime: string, iqamahOffset: string): string {
-    const adhanHM =
-      dayjs(this.today).format('YYYY-MM-DD').toString() +
-      ' ' +
-      adhanTime.substring(0, 5); 
-    return dayjs(adhanHM).add(+iqamahOffset, 'minute').format('hh:mm A').toString();
-  }
-
-  formatAdhanTime(adhanTime: string): string {
+  calcIqamaTime(
+    adhanTime: string,
+    iqamahOffset: number,
+    format: string = 'hh:mm A'
+  ): string {
     const adhanHM =
       dayjs(this.today).format('YYYY-MM-DD').toString() +
       ' ' +
       adhanTime.substring(0, 5);
-    return dayjs(adhanHM).format('hh:mm A').toString();
+
+    return dayjs(adhanHM).add(iqamahOffset, 'minute').format(format).toString();
   }
 
-  ngOnInit(): void {
+  formatAdhanTime(adhanTime: string, format: string = 'hh:mm A'): string {
+    const adhanHM =
+      dayjs(this.today).format('YYYY-MM-DD').toString() +
+      ' ' +
+      adhanTime.substring(0, 5);
+
+    return dayjs(adhanHM).format(format).toString();
   }
 }
