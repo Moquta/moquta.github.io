@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { DEFAULT_API_VALUES } from '../adhan/adhan.service';
+
 import { LocalStorageService } from '../local-storage/local-storage.service';
+import { DEFAULT_API_VALUES } from '../adhan/adhan.service';
 import { IMoqutaSettings } from './settings.model';
 
 const DEFAULT_SETTINGS: IMoqutaSettings = {
   AdditionalInfo: ['Arabic Khutbah:\t\t12:00', 'English Khutbah:\t\t1:00'],
   AdhkarTimings: {
-    Fajr: '15',
-    Dhuhr: '8',
-    Asr: '8',
-    Maghrib: '8',
-    Isha: '8',
+    Fajr: 15,
+    Dhuhr: 8,
+    Asr: 8,
+    Maghrib: 8,
+    Isha: 8,
   },
   ApiParams: {
     ...DEFAULT_API_VALUES,
@@ -19,17 +20,17 @@ const DEFAULT_SETTINGS: IMoqutaSettings = {
     country: 'USA',
   },
   IqamaTimings: {
-    Fajr: '15',
-    Dhuhr: '10',
-    Asr: '10',
-    Maghrib: '5',
-    Isha: '5',
+    Fajr: 15,
+    Dhuhr: 10,
+    Asr: 10,
+    Maghrib: 5,
+    Isha: 5,
   },
   MasjidSubheader: 'Dearborn, MI',
   MasjidLogoSrc: 'assets/logo.png',
   MasjidName: 'American Moslem Society (Masjid Dearborn)',
-  MasjidPrimaryColor: '#ffffff',
-  MasjidSecondaryColor: '#000000',
+  MasjidPrimaryColor: '#650a13',
+  MasjidSecondaryColor: '#ffffff',
 };
 
 export const SETTINGS_KEY = 'MoqutaSettings';

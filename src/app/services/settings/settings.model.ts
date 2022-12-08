@@ -14,19 +14,19 @@ import { IAdhanApiCityParams } from '../adhan/adhan.model';
 export interface IMoqutaSettings {
   AdditionalInfo: Array<string>;
   AdhkarTimings: {
-    Fajr: string;
-    Dhuhr: string;
-    Asr: string;
-    Maghrib: string;
-    Isha: string;
+    Fajr: number;
+    Dhuhr: number;
+    Asr: number;
+    Maghrib: number;
+    Isha: number;
   };
   ApiParams: IAdhanApiCityParams;
   IqamaTimings: {
-    Fajr: string;
-    Dhuhr: string;
-    Asr: string;
-    Maghrib: string;
-    Isha: string;
+    Fajr: number;
+    Dhuhr: number;
+    Asr: number;
+    Maghrib: number;
+    Isha: number;
   };
   MasjidLogoSrc: string;
   MasjidName: string;
