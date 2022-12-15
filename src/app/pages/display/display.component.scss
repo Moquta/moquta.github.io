@@ -133,6 +133,11 @@
   @include centered-flex-column;
 }
 
+.countdown{
+  @include full-width;
+  @include centered-flex-column;
+}
+
 .loading-spinner {
   align-items: center;
   display: inline-flex;
