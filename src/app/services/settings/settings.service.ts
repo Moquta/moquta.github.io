@@ -5,7 +5,7 @@ import { DEFAULT_API_VALUES } from '../adhan/adhan.service';
 import { IMoqutaSettings } from './settings.model';
 
 const DEFAULT_SETTINGS: IMoqutaSettings = {
-  AdditionalInfo: ['Arabic Khutbah:\t\t12:00', 'English Khutbah:\t\t1:00'],
+  AdditionalInfo: ['Arabic Khutbah:\t\t\t12:00PM', 'English Khutbah:\t\t\t1:00PM'],
   AdhkarTimings: {
     Fajr: 15,
     Dhuhr: 8,
@@ -31,6 +31,7 @@ const DEFAULT_SETTINGS: IMoqutaSettings = {
   MasjidName: 'American Moslem Society (Masjid Dearborn)',
   MasjidPrimaryColor: '#650a13',
   MasjidSecondaryColor: '#ffffff',
+  language: 'en'
 };
 
 export const SETTINGS_KEY = 'MoqutaSettings';

@@ -33,4 +33,5 @@ export interface IMoqutaSettings {
   MasjidPrimaryColor: string;
   MasjidSecondaryColor: string;
   MasjidSubheader: string;
+  language: 'ar' | 'en';
 }

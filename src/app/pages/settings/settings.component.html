@@ -17,13 +17,28 @@
   <form #form="ngForm" class="flex flex-column m-3">
     <section class="flex flex-column lg:flex-row mt-4">
       <div class="section-description mr-2">
-        <h2>Masjid Settings</h2>
+        <h2>Personalization Settings</h2>
         <p class="hidden lg:flex text-700">
           Select the settings to personalize Moquta to fit the brand of your
           masjid.
         </p>
       </div>
       <div class="flex flex-wrap flex-column flex-grow-1 section-settings">
+        <mat-form-field appearance="outline" class="m-1">
+          <mat-label>Language</mat-label>
+          <mat-select name="Language" [(ngModel)]="settings.language">
+            <mat-option
+              value="ar"
+            >
+              العربية
+            </mat-option>
+            <mat-option
+              value="en"
+            >
+              English
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <mat-form-field appearance="outline" class="m-1">
           <mat-label>Logo</mat-label>
           <input

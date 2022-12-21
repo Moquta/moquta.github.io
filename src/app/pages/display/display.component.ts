@@ -11,6 +11,8 @@ import {
   SettingsService,
 } from 'src/app/services';
 
+import { MONTHS_AR, DAYS_AR } from './display.data';
+
 @Component({
   selector: 'app-display',
   templateUrl: './display.component.html',
@@ -19,6 +21,9 @@ import {
 export class DisplayComponent {
   now = new Date();
   today = new Date();
+
+  months = MONTHS_AR;
+  days = DAYS_AR;
 
   settings: IMoqutaSettings;
   prayerData!: IPrayerTimesDayData;

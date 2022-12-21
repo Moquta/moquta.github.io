@@ -98,6 +98,26 @@
   flex-direction: column;
   gap: 0.75rem;
 
+  &--arabic {
+    .prayers__row {
+      flex-direction: row-reverse;
+
+      span {
+        &:nth-child(1) {
+          text-align: end;
+        }
+
+        &:nth-child(2) {
+          text-align: center;
+        }
+
+        &:nth-child(3) {
+          text-align: start;
+        }
+      }
+    }
+  }
+
   &__row {
     display: flex;
     flex-direction: row;

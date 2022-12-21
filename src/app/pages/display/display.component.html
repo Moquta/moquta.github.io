@@ -19,15 +19,23 @@
   </section>
 
   <section class="date-g p-4 shadow-2">
-    <ng-container *ngIf="prayerData; else loading">
-      <span class="text-6xl">{{ prayerData.date.gregorian.month.en }}</span>
-      <span class="text-6xl">{{ prayerData.date.gregorian.day }}</span>
-      <span class="text-6xl">{{ prayerData.date.gregorian.year }}</span>
-    </ng-container>
+    <span class="text-6xl">
+      {{
+        settings.language === "en"
+          ? (now | date : "MMMM")
+          : months[now.getMonth()]
+      }}
+    </span>
+    <span class="text-6xl">{{ now | date : "d" }}</span>
+    <span class="text-6xl">{{ now | date : "yyyy" }}</span>
   </section>
 
   <section class="day p-4 shadow-2">
-    <span class="text-6xl">{{ now | date : "EEEE" }}</span>
+    <span class="text-6xl">
+      {{
+        settings.language === "en" ? (now | date : "EEEE") : days[now.getDay()]
+      }}
+    </span>
   </section>
 
   <section class="time p-4 shadow-2">
@@ -36,18 +44,27 @@
 
   <section class="date-h p-4 shadow-2">
     <ng-container *ngIf="prayerData; else loading">
-      <span class="text-5xl">{{ prayerData.date.hijri.month.en | titlecase}}</span>
+      <span class="text-5xl">{{
+        settings.language === "en"
+          ? (prayerData.date.hijri.month.en | titlecase)
+          : prayerData.date.hijri.month.ar
+      }}</span>
       <span class="text-6xl">{{ prayerData.date.hijri.day }}</span>
       <span class="text-6xl">{{ prayerData.date.hijri.year }}</span>
     </ng-container>
   </section>
 
-  <section class="prayers p-4 shadow-2">
+  <section
+    class="prayers p-4 shadow-2"
+    [ngClass]="{
+      'prayers--arabic': settings.language === 'ar'
+    }"
+  >
     <ng-container *ngIf="prayerData; else loading">
       <div class="prayers__row">
-        <span>Prayer</span>
-        <span>Adhan</span>
-        <span>Iqamah</span>
+        <span>{{ settings.language === "en" ? "Prayer" : "الصلاة" }} </span>
+        <span>{{ settings.language === "en" ? "Adhan" : "الأذان" }} </span>
+        <span>{{ settings.language === "en" ? "Iqama" : "الإقامة" }} </span>
       </div>
       <div
         class="prayers__row shadow-3"
@@ -55,7 +72,7 @@
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 0
         }"
       >
-        <span>Fajr</span>
+        <span>{{ settings.language === "en" ? "Fajr" : "الفجر" }}</span>
         <span>{{ formatAdhanTime(prayerData.timings.Fajr) }}</span>
         <span>
           {{
@@ -69,7 +86,7 @@
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 1
         }"
       >
-        <span>Sunrise</span>
+        <span>{{ settings.language === "en" ? "Sunrise" : "الشروق" }}</span>
         <span>{{ formatAdhanTime(prayerData.timings.Sunrise) }}</span>
       </div>
       <div
@@ -78,7 +95,7 @@
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 2
         }"
       >
-        <span>Dhuhr</span>
+        <span>{{ settings.language === "en" ? "Dhuhr" : "الظهر" }}</span>
         <span>{{ formatAdhanTime(prayerData.timings.Dhuhr) }}</span>
         <span>
           {{
@@ -92,7 +109,7 @@
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 3
         }"
       >
-        <span>Asr</span>
+        <span>{{ settings.language === "en" ? "Asr" : "العصر" }}</span>
         <span>{{ formatAdhanTime(prayerData.timings.Asr) }}</span>
         <span>
           {{ calcIqamaTime(prayerData.timings.Asr, settings.IqamaTimings.Asr) }}
@@ -104,7 +121,7 @@
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 4
         }"
       >
-        <span>Maghrib</span>
+        <span>{{ settings.language === "en" ? "Maghrib" : "المغرب" }}</span>
         <span>{{ formatAdhanTime(prayerData.timings.Maghrib) }}</span>
         <span>
           {{
@@ -121,7 +138,7 @@
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 5
         }"
       >
-        <span>Isha</span>
+        <span>{{ settings.language === "en" ? "Isha" : "العشاء" }}</span>
         <span>{{ formatAdhanTime(prayerData.timings.Isha) }}</span>
         <span>
           {{
