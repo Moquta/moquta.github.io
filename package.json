@@ -20,7 +20,6 @@
     "@angular/platform-browser": "^14.2.11",
     "@angular/platform-browser-dynamic": "^14.2.11",
     "@angular/router": "^14.2.11",
-    "country-state-city": "^3.1.2",
     "dayjs": "^1.11.6",
     "primeflex": "^3.3.0",
     "rxjs": "~7.5.7",

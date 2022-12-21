@@ -27,16 +27,8 @@
         <mat-form-field appearance="outline" class="m-1">
           <mat-label>Language</mat-label>
           <mat-select name="Language" [(ngModel)]="settings.language">
-            <mat-option
-              value="ar"
-            >
-              العربية
-            </mat-option>
-            <mat-option
-              value="en"
-            >
-              English
-            </mat-option>
+            <mat-option value="ar"> العربية </mat-option>
+            <mat-option value="en"> English </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline" class="m-1">
@@ -380,7 +372,7 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field
-            *ngIf="settings.apiParams.method == 15"
+            *ngIf="settings.apiParams.method == '15'"
             appearance="outline"
             class="m-1 flex-1"
           >
@@ -394,60 +386,36 @@
         </div>
         <div class="flex flex-nowrap flex-row flex-1">
           <mat-form-field appearance="outline" class="m-1 flex-1">
-            <mat-label>Country</mat-label>
-            <mat-select name="country" [(ngModel)]="settings.apiParams.country" (valueChange)="settings.apiParams.state = ''">
-              <mat-option
-                *ngFor="let country of getAllCountries()"
-                [value]="country.isoCode"
-              >
-                {{ country.name }}
-              </mat-option>
-            </mat-select>
+            <mat-label>Latitude</mat-label>
+            <input
+              matInput
+              type="number"
+              name="latitude"
+              [(ngModel)]="settings.apiParams.latitude"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="m-1 flex-1">
-            <mat-label>State</mat-label>
-            <mat-select
-              name="state"
-              [(ngModel)]="settings.apiParams.state"
-              (valueChange)="settings.apiParams.city = ''"
-              [disabled]="
-                !settings.apiParams.country || settings.apiParams.country == ''
-              "
-            >
-              <mat-option
-                *ngFor="
-                  let state of getStatesOfCountry(settings.apiParams.country)
-                "
-                [value]="state.isoCode"
-              >
-                {{ state.name }}
-              </mat-option>
-            </mat-select>
+            <mat-label>Longitude</mat-label>
+            <input
+              matInput
+              type="number"
+              name="longitude"
+              [(ngModel)]="settings.apiParams.longitude"
+            />
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="m-1 flex-1">
-            <mat-label>City</mat-label>
-            <mat-select
-              name="city"
-              [(ngModel)]="settings.apiParams.city"
-              [disabled]="
-                !settings.apiParams.state || settings.apiParams.state == ''
-              "
-            >
-              <mat-option
-                *ngFor="
-                  let city of getCitiesOfState(
-                    settings.apiParams.country,
-                    settings.apiParams.state
-                  )
-                "
-                [value]="city.name"
-              >
-                {{ city.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <button
+            mat-stroked-button
+            #tooltip="matTooltip"
+            class="mt-3 align-self-start"
+            color="basic"
+            matTooltipPosition="below"
+            matTooltip="Requires Permission: will fetch your current latitude and longitude if permission is given."
+            (click)="getLatLong()"
+          >
+            Get Location
+          </button>
         </div>
       </div>
     </section>

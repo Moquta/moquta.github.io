@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
     MatInputModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent],

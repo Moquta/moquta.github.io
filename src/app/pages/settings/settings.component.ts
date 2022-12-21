@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { debounceTime, Subscription } from 'rxjs';
-import { Country, State, City } from 'country-state-city';
 
 import { IMoqutaSettings, SettingsService } from 'src/app/services';
 
@@ -26,20 +25,27 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }));
   }
 
-  getAllCountries = Country.getAllCountries;
-  getStatesOfCountry = State.getStatesOfCountry;
-  getCitiesOfState = City.getCitiesOfState;
-
   ngOnInit(): void {
     this.formChanges$ = this.ngForm.form.valueChanges
       .pipe(debounceTime(500))
       .subscribe(() => {
         this.saveSettings();
       });
+
+      console.log(this.settings);
   }
 
   ngOnDestroy(): void {
     this.formChanges$?.unsubscribe();
+  }
+
+  getLatLong(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.settings.apiParams.latitude = position.coords.latitude;
+        this.settings.apiParams.longitude = position.coords.longitude;
+      });
+    }
   }
 
   saveSettings(): void {

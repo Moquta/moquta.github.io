@@ -4,7 +4,7 @@ import * as dayjs from 'dayjs';
 
 import {
   AdhanService,
-  IAdhanApiCityParams,
+  IAdhanApiParams,
   IMoqutaSettings,
   IPrayerTimesDayData,
   IPrayerTimesYearData,
@@ -33,57 +33,61 @@ export class DisplayComponent {
     let pIndex = 0;
     let currentTime: number = +dayjs(this.now).format('HHmm');
 
-    if (
-      currentTime <
-      +this.format24HTime(
-        this.prayerData.timings.Fajr,
-        this.settings.iqamaOffset.Fajr + this.settings.adhkarOffset.Fajr,
-        'HHmm'
-      )
-    ) {
+    if (this.prayerData) {
+      if (
+        currentTime <
+        +this.format24HTime(
+          this.prayerData.timings.Fajr,
+          this.settings.iqamaOffset.Fajr + this.settings.adhkarOffset.Fajr,
+          'HHmm'
+        )
+      ) {
+        pIndex = 0;
+      } else if (
+        currentTime <
+        +this.format24HTime(this.prayerData.timings.Sunrise, 30, 'HHmm')
+      ) {
+        pIndex = 1;
+      } else if (
+        currentTime <
+        +this.format24HTime(
+          this.prayerData.timings.Dhuhr,
+          this.settings.iqamaOffset.Dhuhr + this.settings.adhkarOffset.Dhuhr,
+          'HHmm'
+        )
+      ) {
+        pIndex = 2;
+      } else if (
+        currentTime <
+        +this.format24HTime(
+          this.prayerData.timings.Asr,
+          this.settings.iqamaOffset.Asr + this.settings.adhkarOffset.Asr,
+          'HHmm'
+        )
+      ) {
+        pIndex = 3;
+      } else if (
+        currentTime <
+        +this.format24HTime(
+          this.prayerData.timings.Maghrib,
+          this.settings.iqamaOffset.Maghrib +
+            this.settings.adhkarOffset.Maghrib,
+          'HHmm'
+        )
+      ) {
+        pIndex = 4;
+      } else if (
+        currentTime <
+        +this.format24HTime(
+          this.prayerData.timings.Isha,
+          this.settings.iqamaOffset.Isha + this.settings.adhkarOffset.Isha,
+          'HHmm'
+        )
+      ) {
+        pIndex = 5;
+      }
+    } else {
       pIndex = 0;
-    } else if (
-      currentTime <
-      +this.format24HTime(this.prayerData.timings.Sunrise, 30, 'HHmm')
-    ) {
-      pIndex = 1;
-    } else if (
-      currentTime <
-      +this.format24HTime(
-        this.prayerData.timings.Dhuhr,
-        this.settings.iqamaOffset.Dhuhr + this.settings.adhkarOffset.Dhuhr,
-        'HHmm'
-      )
-    ) {
-      pIndex = 2;
-    } else if (
-      currentTime <
-      +this.format24HTime(
-        this.prayerData.timings.Asr,
-        this.settings.iqamaOffset.Asr + this.settings.adhkarOffset.Asr,
-        'HHmm'
-      )
-    ) {
-      pIndex = 3;
-    } else if (
-      currentTime <
-      +this.format24HTime(
-        this.prayerData.timings.Maghrib,
-        this.settings.iqamaOffset.Maghrib +
-          this.settings.adhkarOffset.Maghrib,
-        'HHmm'
-      )
-    ) {
-      pIndex = 4;
-    } else if (
-      currentTime <
-      +this.format24HTime(
-        this.prayerData.timings.Isha,
-        this.settings.iqamaOffset.Isha + this.settings.adhkarOffset.Isha,
-        'HHmm'
-      )
-    ) {
-      pIndex = 5;
     }
 
     return pIndex;
@@ -107,9 +111,9 @@ export class DisplayComponent {
   }
 
   retrievePrayerTimes() {
-    const apiConfig: IAdhanApiCityParams = this.settings.apiParams;
+    const apiConfig: IAdhanApiParams = this.settings.apiParams;
 
-    this.adhanApi.getPrayerTimesForYearByCity(apiConfig).then((response) => {
+    this.adhanApi.fetchPrayerTimes(apiConfig).then((response) => {
       this.prayerData =
         response.data[
           (this.today.getMonth() + 1) as keyof IPrayerTimesYearData
