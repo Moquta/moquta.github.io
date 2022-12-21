@@ -15,6 +15,11 @@
   }
 }
 
+@mixin highlight {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
 .grid-container {
   aspect-ratio: 9 / 16;
   background-color: var(--surface-300);
@@ -124,6 +129,7 @@
     &--highlighted {
       font-weight: 600;
       scale: 1.07;
+      @include highlight;
     }
   }
 }
@@ -131,6 +137,10 @@
 .additional-info {
   @include full-width;
   @include centered-flex-column;
+
+  &--highlighted {
+    @include highlight;
+  }
 }
 
 .loading-spinner {

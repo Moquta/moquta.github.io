@@ -1,4 +1,8 @@
-<main class="grid-container p-3">
+<main
+  class="grid-container p-3"
+  style="--color-primary:{{ settings.MasjidPrimaryColor }}; 
+  --color-secondary:{{ settings.MasjidSecondaryColor }}"
+>
   <section class="header p-4 shadow-2">
     <img
       class="header__masjid-logo"
@@ -32,7 +36,7 @@
 
   <section class="date-h p-4 shadow-2">
     <ng-container *ngIf="prayerData; else loading">
-      <span class="text-6xl">{{ prayerData.date.hijri.month.ar }}</span>
+      <span class="text-5xl">{{ prayerData.date.hijri.month.en | titlecase}}</span>
       <span class="text-6xl">{{ prayerData.date.hijri.day }}</span>
       <span class="text-6xl">{{ prayerData.date.hijri.year }}</span>
     </ng-container>
@@ -50,14 +54,6 @@
         [ngClass]="{
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 0
         }"
-        [ngStyle]="
-          nextPrayerIndex === 0
-            ? {
-                'background-color': settings.MasjidPrimaryColor,
-                color: settings.MasjidSecondaryColor
-              }
-            : null
-        "
       >
         <span>Fajr</span>
         <span>{{ formatAdhanTime(prayerData.timings.Fajr) }}</span>
@@ -72,14 +68,6 @@
         [ngClass]="{
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 1
         }"
-        [ngStyle]="
-          nextPrayerIndex === 1
-            ? {
-                'background-color': settings.MasjidPrimaryColor,
-                color: settings.MasjidSecondaryColor
-              }
-            : null
-        "
       >
         <span>Sunrise</span>
         <span>{{ formatAdhanTime(prayerData.timings.Sunrise) }}</span>
@@ -89,14 +77,6 @@
         [ngClass]="{
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 2
         }"
-        [ngStyle]="
-          nextPrayerIndex === 2
-            ? {
-                'background-color': settings.MasjidPrimaryColor,
-                color: settings.MasjidSecondaryColor
-              }
-            : null
-        "
       >
         <span>Dhuhr</span>
         <span>{{ formatAdhanTime(prayerData.timings.Dhuhr) }}</span>
@@ -111,14 +91,6 @@
         [ngClass]="{
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 3
         }"
-        [ngStyle]="
-          nextPrayerIndex === 3
-            ? {
-                'background-color': settings.MasjidPrimaryColor,
-                color: settings.MasjidSecondaryColor
-              }
-            : null
-        "
       >
         <span>Asr</span>
         <span>{{ formatAdhanTime(prayerData.timings.Asr) }}</span>
@@ -131,14 +103,6 @@
         [ngClass]="{
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 4
         }"
-        [ngStyle]="
-          nextPrayerIndex === 4
-            ? {
-                'background-color': settings.MasjidPrimaryColor,
-                color: settings.MasjidSecondaryColor
-              }
-            : null
-        "
       >
         <span>Maghrib</span>
         <span>{{ formatAdhanTime(prayerData.timings.Maghrib) }}</span>
@@ -156,14 +120,6 @@
         [ngClass]="{
           'prayers__row--highlighted shadow-7': nextPrayerIndex === 5
         }"
-        [ngStyle]="
-          nextPrayerIndex === 5
-            ? {
-                'background-color': settings.MasjidPrimaryColor,
-                color: settings.MasjidSecondaryColor
-              }
-            : null
-        "
       >
         <span>Isha</span>
         <span>{{ formatAdhanTime(prayerData.timings.Isha) }}</span>
@@ -178,14 +134,9 @@
 
   <section
     class="additional-info p-4 shadow-2"
-    [ngStyle]="
-      today.getDay() === 5 && nextPrayerIndex === 2
-        ? {
-            'background-color': settings.MasjidPrimaryColor,
-            color: settings.MasjidSecondaryColor
-          }
-        : null
-    "
+    [ngClass]="{
+      'additional-info--highlighted': nextPrayerIndex === 5
+    }"
   >
     <span *ngFor="let info of settings.AdditionalInfo" class="text-7xl">
       {{ info }}
