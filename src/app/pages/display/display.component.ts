@@ -35,51 +35,51 @@ export class DisplayComponent {
 
     if (
       currentTime <
-      +this.calcIqamaTime(
+      +this.format24HTime(
         this.prayerData.timings.Fajr,
-        this.settings.IqamaTimings.Fajr + this.settings.AdhkarTimings.Fajr,
+        this.settings.iqamaOffset.Fajr + this.settings.adhkarOffset.Fajr,
         'HHmm'
       )
     ) {
       pIndex = 0;
     } else if (
       currentTime <
-      +this.calcIqamaTime(this.prayerData.timings.Sunrise, 30, 'HHmm')
+      +this.format24HTime(this.prayerData.timings.Sunrise, 30, 'HHmm')
     ) {
       pIndex = 1;
     } else if (
       currentTime <
-      +this.calcIqamaTime(
+      +this.format24HTime(
         this.prayerData.timings.Dhuhr,
-        this.settings.IqamaTimings.Dhuhr + this.settings.AdhkarTimings.Dhuhr,
+        this.settings.iqamaOffset.Dhuhr + this.settings.adhkarOffset.Dhuhr,
         'HHmm'
       )
     ) {
       pIndex = 2;
     } else if (
       currentTime <
-      +this.calcIqamaTime(
+      +this.format24HTime(
         this.prayerData.timings.Asr,
-        this.settings.IqamaTimings.Asr + this.settings.AdhkarTimings.Asr,
+        this.settings.iqamaOffset.Asr + this.settings.adhkarOffset.Asr,
         'HHmm'
       )
     ) {
       pIndex = 3;
     } else if (
       currentTime <
-      +this.calcIqamaTime(
+      +this.format24HTime(
         this.prayerData.timings.Maghrib,
-        this.settings.IqamaTimings.Maghrib +
-          this.settings.AdhkarTimings.Maghrib,
+        this.settings.iqamaOffset.Maghrib +
+          this.settings.adhkarOffset.Maghrib,
         'HHmm'
       )
     ) {
       pIndex = 4;
     } else if (
       currentTime <
-      +this.calcIqamaTime(
+      +this.format24HTime(
         this.prayerData.timings.Isha,
-        this.settings.IqamaTimings.Isha + this.settings.AdhkarTimings.Isha,
+        this.settings.iqamaOffset.Isha + this.settings.adhkarOffset.Isha,
         'HHmm'
       )
     ) {
@@ -107,7 +107,7 @@ export class DisplayComponent {
   }
 
   retrievePrayerTimes() {
-    const apiConfig: IAdhanApiCityParams = this.settings.ApiParams;
+    const apiConfig: IAdhanApiCityParams = this.settings.apiParams;
 
     this.adhanApi.getPrayerTimesForYearByCity(apiConfig).then((response) => {
       this.prayerData =
@@ -117,27 +117,17 @@ export class DisplayComponent {
     });
   }
 
-  // TODO? should we make this generic (add minutes to time function instead of calcIqamaTime)
-  calcIqamaTime(
-    adhanTime: string,
-    iqamahOffset: number,
+  // TODO? should we make this generic (add minutes to time function instead of format24HTime)
+  format24HTime(
+    time: string,
+    minutesToAdd: number = 0,
     format: string = 'hh:mm A'
   ): string {
     const adhanHM =
       dayjs(this.today).format('YYYY-MM-DD').toString() +
       ' ' +
-      adhanTime.substring(0, 5);
+      time.substring(0, 5);
 
-    return dayjs(adhanHM).add(iqamahOffset, 'minute').format(format).toString();
-  }
-
-  // TODO? should we turn this into a pipe instead?
-  formatAdhanTime(adhanTime: string, format: string = 'hh:mm A'): string {
-    const adhanHM =
-      dayjs(this.today).format('YYYY-MM-DD').toString() +
-      ' ' +
-      adhanTime.substring(0, 5);
-
-    return dayjs(adhanHM).format(format).toString();
+    return dayjs(adhanHM).add(minutesToAdd, 'minute').format(format).toString();
   }
 }

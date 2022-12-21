@@ -5,32 +5,32 @@ import { DEFAULT_API_VALUES } from '../adhan/adhan.service';
 import { IMoqutaSettings } from './settings.model';
 
 const DEFAULT_SETTINGS: IMoqutaSettings = {
-  AdditionalInfo: ['Arabic Khutbah:\t\t\t12:00PM', 'English Khutbah:\t\t\t1:00PM'],
-  AdhkarTimings: {
+  additionalInfo: ['Arabic Khutbah:\t\t\t12:00PM', 'English Khutbah:\t\t\t1:00PM'],
+  adhkarOffset: {
     Fajr: 15,
     Dhuhr: 8,
     Asr: 8,
     Maghrib: 8,
     Isha: 8,
   },
-  ApiParams: {
+  apiParams: {
     ...DEFAULT_API_VALUES,
     city: 'Dearborn',
     state: 'MI',
     country: 'USA',
   },
-  IqamaTimings: {
+  iqamaOffset: {
     Fajr: 15,
     Dhuhr: 10,
     Asr: 10,
     Maghrib: 5,
     Isha: 5,
   },
-  MasjidSubheader: 'Dearborn, MI',
-  MasjidLogoSrc: 'assets/logo.png',
-  MasjidName: 'American Moslem Society (Masjid Dearborn)',
-  MasjidPrimaryColor: '#650a13',
-  MasjidSecondaryColor: '#ffffff',
+  masjidSubheader: 'Dearborn, MI',
+  masjidLogoSrc: 'assets/logo.png',
+  masjidName: 'American Moslem Society (Masjid Dearborn)',
+  masjidPrimaryColor: '#650a13',
+  masjidSecondaryColor: '#ffffff',
   language: 'en'
 };
 

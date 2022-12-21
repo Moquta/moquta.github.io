@@ -20,8 +20,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   @ViewChild('form', { static: true }) ngForm!: NgForm;
   constructor(private settingsService: SettingsService) {
     this.settings = this.settingsService.getSettings();
-    this.prayerTimesTune = this.settings.ApiParams.tune?.split(',') ?? [];
-    this.additionalInfo = this.settings.AdditionalInfo.map((value) => ({
+    this.prayerTimesTune = this.settings.apiParams.tune?.split(',') ?? [];
+    this.additionalInfo = this.settings.additionalInfo.map((value) => ({
       value,
     }));
   }
@@ -44,8 +44,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   saveSettings(): void {
     if (this.settings) {
-      this.settings.ApiParams.tune = this.prayerTimesTune.join(',');
-      this.settings.AdditionalInfo = this.additionalInfo.map(
+      this.settings.apiParams.tune = this.prayerTimesTune.join(',');
+      this.settings.additionalInfo = this.additionalInfo.map(
         (value) => value.value
       );
       this.settingsService.saveSettings(this.settings);

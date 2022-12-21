@@ -1,19 +1,19 @@
 <main
   class="grid-container p-3"
-  style="--color-primary:{{ settings.MasjidPrimaryColor }}; 
-  --color-secondary:{{ settings.MasjidSecondaryColor }}"
+  style="--color-primary:{{ settings.masjidPrimaryColor }}; 
+  --color-secondary:{{ settings.masjidSecondaryColor }}"
 >
   <section class="header p-4 shadow-2">
     <img
       class="header__masjid-logo"
-      [src]="settings.MasjidLogoSrc"
+      [src]="settings.masjidLogoSrc"
       alt="Masjid Logo"
       routerLink="/settings"
     />
     <div class="header__masjid-name">
-      <span class="text-5xl font-bold">{{ settings.MasjidName }}</span>
+      <span class="text-5xl font-bold">{{ settings.masjidName }}</span>
       <span class="text-5xl text-black-alpha-60">
-        {{ settings.MasjidSubheader }}
+        {{ settings.masjidSubheader }}
       </span>
     </div>
   </section>
@@ -73,10 +73,10 @@
         }"
       >
         <span>{{ settings.language === "en" ? "Fajr" : "الفجر" }}</span>
-        <span>{{ formatAdhanTime(prayerData.timings.Fajr) }}</span>
+        <span>{{ format24HTime(prayerData.timings.Fajr) }}</span>
         <span>
           {{
-            calcIqamaTime(prayerData.timings.Fajr, settings.IqamaTimings.Fajr)
+            format24HTime(prayerData.timings.Fajr, settings.iqamaOffset.Fajr)
           }}
         </span>
       </div>
@@ -87,7 +87,7 @@
         }"
       >
         <span>{{ settings.language === "en" ? "Sunrise" : "الشروق" }}</span>
-        <span>{{ formatAdhanTime(prayerData.timings.Sunrise) }}</span>
+        <span>{{ format24HTime(prayerData.timings.Sunrise) }}</span>
       </div>
       <div
         class="prayers__row shadow-3"
@@ -96,10 +96,10 @@
         }"
       >
         <span>{{ settings.language === "en" ? "Dhuhr" : "الظهر" }}</span>
-        <span>{{ formatAdhanTime(prayerData.timings.Dhuhr) }}</span>
+        <span>{{ format24HTime(prayerData.timings.Dhuhr) }}</span>
         <span>
           {{
-            calcIqamaTime(prayerData.timings.Dhuhr, settings.IqamaTimings.Dhuhr)
+            format24HTime(prayerData.timings.Dhuhr, settings.iqamaOffset.Dhuhr)
           }}
         </span>
       </div>
@@ -110,9 +110,9 @@
         }"
       >
         <span>{{ settings.language === "en" ? "Asr" : "العصر" }}</span>
-        <span>{{ formatAdhanTime(prayerData.timings.Asr) }}</span>
+        <span>{{ format24HTime(prayerData.timings.Asr) }}</span>
         <span>
-          {{ calcIqamaTime(prayerData.timings.Asr, settings.IqamaTimings.Asr) }}
+          {{ format24HTime(prayerData.timings.Asr, settings.iqamaOffset.Asr) }}
         </span>
       </div>
       <div
@@ -122,12 +122,12 @@
         }"
       >
         <span>{{ settings.language === "en" ? "Maghrib" : "المغرب" }}</span>
-        <span>{{ formatAdhanTime(prayerData.timings.Maghrib) }}</span>
+        <span>{{ format24HTime(prayerData.timings.Maghrib) }}</span>
         <span>
           {{
-            calcIqamaTime(
+            format24HTime(
               prayerData.timings.Maghrib,
-              settings.IqamaTimings.Maghrib
+              settings.iqamaOffset.Maghrib
             )
           }}
         </span>
@@ -139,10 +139,10 @@
         }"
       >
         <span>{{ settings.language === "en" ? "Isha" : "العشاء" }}</span>
-        <span>{{ formatAdhanTime(prayerData.timings.Isha) }}</span>
+        <span>{{ format24HTime(prayerData.timings.Isha) }}</span>
         <span>
           {{
-            calcIqamaTime(prayerData.timings.Isha, settings.IqamaTimings.Isha)
+            format24HTime(prayerData.timings.Isha, settings.iqamaOffset.Isha)
           }}
         </span>
       </div>
@@ -155,7 +155,7 @@
       'additional-info--highlighted': nextPrayerIndex === 5
     }"
   >
-    <span *ngFor="let info of settings.AdditionalInfo" class="text-7xl">
+    <span *ngFor="let info of settings.additionalInfo" class="text-7xl">
       {{ info }}
     </span>
   </section>

@@ -1,37 +1,33 @@
 import { IAdhanApiCityParams } from '../adhan/adhan.model';
 
 /**
- * @param AdditionalInfo - List of information to show at the bottom of the display. Each item will show in a new line. Example: ['Arabic Khutbah: 12:00 PM']
- * @param AdhkarTimings - How long after iqama time until adhkar shall be displayed for each prayer.
- * @param ApiParams - All the parameters pertaining to getting the data from the API
- * @param IqamaTimings - How long after adhan time iqamah time should be
- * @param MasjidLogoSrc - Source for logo of the masjid (preferably a local image)
- * @param MasjidName - Name of the masjid
- * @param MasjidPrimaryColor - Primary color for the masjid
- * @param MasjidSecondaryColor - Secondary color for the masjid
- * @param MasjidSubheader - Name of the masjid's location
+ * @param additionalInfo - List of information to show at the bottom of the display. Each item will show in a new line. Example: ['Arabic Khutbah: 12:00 PM']
+ * @param adhkarOffset - How long after iqama time until adhkar shall be displayed for each prayer.
+ * @param apiParams - All the parameters pertaining to getting the data from the API
+ * @param iqamaOffset - How long after adhan time iqamah time should be
+ * @param masjidLogoSrc - Source for logo of the masjid (preferably a local image)
+ * @param masjidName - Name of the masjid
+ * @param masjidPrimaryColor - Primary color for the masjid (used to highlight current prayer row)
+ * @param masjidSecondaryColor - Secondary color for the masjid (use for font on highlight)
+ * @param masjidSubheader - Information to show under masjid name
  */
 export interface IMoqutaSettings {
-  AdditionalInfo: Array<string>;
-  AdhkarTimings: {
-    Fajr: number;
-    Dhuhr: number;
-    Asr: number;
-    Maghrib: number;
-    Isha: number;
-  };
-  ApiParams: IAdhanApiCityParams;
-  IqamaTimings: {
-    Fajr: number;
-    Dhuhr: number;
-    Asr: number;
-    Maghrib: number;
-    Isha: number;
-  };
-  MasjidLogoSrc: string;
-  MasjidName: string;
-  MasjidPrimaryColor: string;
-  MasjidSecondaryColor: string;
-  MasjidSubheader: string;
+  additionalInfo: Array<string>;
+  adhkarOffset: IPrayers;
+  apiParams: IAdhanApiCityParams;
+  iqamaOffset: IPrayers;
+  masjidLogoSrc: string;
+  masjidName: string;
+  masjidPrimaryColor: string;
+  masjidSecondaryColor: string;
+  masjidSubheader: string;
   language: 'ar' | 'en';
+}
+
+export interface IPrayers {
+  Fajr: number;
+  Dhuhr: number;
+  Asr: number;
+  Maghrib: number;
+  Isha: number;
 }

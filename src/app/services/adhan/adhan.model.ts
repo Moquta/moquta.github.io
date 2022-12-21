@@ -46,7 +46,7 @@ export interface IAdhanApiAddressParams extends IAdhanApiBaseParams {
  * @param longitude  The decimal value for the longitude co-ordinate of the location you want the time computed for. Example: -1.25387785
  * @param timezonestring A valid timezone name as specified on http://php.net/manual/en/timezones.php . Example: Europe/London. If you do not specify this, we'll calcuate it using the co-ordinates you provide.
  */
-export interface IAdhanApiParams extends IAdhanApiBaseParams {
+export interface IAdhanapiParams extends IAdhanApiBaseParams {
   latitude: string;
   longitude: string;
   timezonestring?: string;
