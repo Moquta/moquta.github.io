@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { ThemePalette } from '@angular/material/core';
+
+
+
 import * as dayjs from 'dayjs';
 
 import {
@@ -18,12 +23,24 @@ import {
   styleUrls: ['./display.component.scss'],
 })
 export class DisplayComponent {
-  now = new Date('2022-12-14 18:27');
+  now = new Date;
 
   today = new Date();
 
   settings: IMoqutaSettings;
   prayerData!: IPrayerTimesDayData;
+
+  mode: ProgressSpinnerMode = 'determinate';
+  
+  get progressbarValue(): number{
+    if (this.showCountdown){
+      return (100 - ((this.nextPrayerIqama.valueOf() - this.now.valueOf())/120000)*100);
+      
+    }
+    else
+      return 100; 
+  }
+
 
   // TODO? Is there a better, more efficient way to do this?
   get nextPrayerIndex(): number {
@@ -176,8 +193,8 @@ export class DisplayComponent {
     this.retrievePrayerTimes();
 
     setInterval(() => {
-      this.now = dayjs(this.now).add(5, 'second').toDate();
-      //this.now = new Date();
+      //this.now = dayjs(this.now).add(5, 'second').toDate();
+      this.now = new Date();
       if (this.today.getDate() !== this.now.getDate()) {
         this.today = this.now;
         this.retrievePrayerTimes();
