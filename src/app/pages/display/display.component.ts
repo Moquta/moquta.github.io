@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 
-import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { ThemePalette } from '@angular/material/core';
-
 
 
 import * as dayjs from 'dayjs';
@@ -23,14 +20,13 @@ import {
   styleUrls: ['./display.component.scss'],
 })
 export class DisplayComponent {
-  now = new Date;
+  now = new Date();
 
   today = new Date();
 
   settings: IMoqutaSettings;
   prayerData!: IPrayerTimesDayData;
 
-  mode: ProgressSpinnerMode = 'determinate';
   
   get progressbarValue(): number{
     if (this.showCountdown){

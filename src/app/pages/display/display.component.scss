@@ -144,7 +144,7 @@
 .mat-progress-spinner circle, .mat-spinner circle {
   stroke: #650a13;
 }
-.progressBar{
+.progress-bar{
   height:250px;
   width: 250px;
   border-radius: 50%;
@@ -155,7 +155,7 @@
               inset -4px -4px 6px -1px rgba(53, 45, 45, 0.7),;
 }
 
-.backgroundCircle{
+.background-circle{
   height: 180px;
   width: 180px;
   border-radius: 50%;
@@ -168,7 +168,7 @@
               
 }
 
-.timerText{
+.timer-text{
   @include centered-flex-column;
 }
 
