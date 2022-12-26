@@ -20,7 +20,6 @@ import { MONTHS_AR, DAYS_AR } from './display.data';
 })
 export class DisplayComponent {
   now = new Date();
-
   today = new Date();
 
   months = MONTHS_AR;
@@ -30,12 +29,9 @@ export class DisplayComponent {
   prayerData!: IPrayerTimesDayData;
 
   get progressbarValue(): number {
-    if (this.showCountdown) {
-      return (
-        100 -
-        ((this.nextPrayerIqama.valueOf() - this.now.valueOf()) / 120000) * 100
-      );
-    } else return 100;
+    return this.showCountdown
+      ? 100 - (this.nextPrayerIqama.valueOf() - this.now.valueOf()) / 1200
+      : 100;
   }
 
   // TODO? Is there a better, more efficient way to do this?
@@ -101,31 +97,6 @@ export class DisplayComponent {
     }
 
     return pIndex;
-  }
-
-  get nextPrayerTime(): string {
-    let nextPrayerTime = this.prayerData.timings.Fajr;
-    switch (this.nextPrayerIndex) {
-      case 0:
-        nextPrayerTime = this.prayerData.timings.Fajr;
-        break;
-      case 1:
-        nextPrayerTime = this.prayerData.timings.Sunrise;
-        break;
-      case 2:
-        nextPrayerTime = this.prayerData.timings.Dhuhr;
-        break;
-      case 3:
-        nextPrayerTime = this.prayerData.timings.Asr;
-        break;
-      case 4:
-        nextPrayerTime = this.prayerData.timings.Maghrib;
-        break;
-      case 5:
-        nextPrayerTime = this.prayerData.timings.Isha;
-        break;
-    }
-    return nextPrayerTime;
   }
 
   get nextPrayerIqama(): Date {
@@ -198,13 +169,12 @@ export class DisplayComponent {
     setInterval(() => {
       this.now = new Date();
       // this.now = dayjs(this.now).add(1, 'second').toDate();
-      // this.now = new Date('2022-12-25 18:34');
 
       if (this.today.getDate() !== this.now.getDate()) {
         this.today = this.now;
         this.retrievePrayerTimes();
       }
-    }, 1);
+    }, 1000);
   }
 
   retrievePrayerTimes() {
@@ -218,7 +188,6 @@ export class DisplayComponent {
     });
   }
 
-  // TODO? should we make this generic (add minutes to time function instead of format24HTime)
   format24HTime(
     time: string,
     minutesToAdd: number = 0,

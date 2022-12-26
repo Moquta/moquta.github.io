@@ -21,6 +21,15 @@ body {
   background-color: #ffffffcc !important;
 }
 
+.countdown__spinner--progress circle {
+  stroke: var(--color-primary) !important;
+  transition: stroke-dashoffset 1s linear !important;
+}
+
+.countdown__spinner--buffer circle {
+  stroke: var(--surface-300) !important;
+}
+
 // Color Pallete for primeflex
 :root {
   --text-color: #495057;
