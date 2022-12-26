@@ -176,7 +176,7 @@
     </ng-container>
   </section>
 
-  <section
+  <section *ngIf="!showCountdown; else countdown" 
     class="additional-info p-4 shadow-2"
     [ngStyle]="
       today.getDay() === 5 && nextPrayerIndex === 2
@@ -197,4 +197,21 @@
   <div class="loading-spinner">
     <mat-spinner></mat-spinner>
   </div>
+</ng-template>
+
+<ng-template #countdown >
+<section class="countdown p-4 shadow-2">
+  <div>
+    <mat-progress-spinner
+        class="progressBar"
+        [mode]="mode"
+        [value]="progressbarValue"
+        [diameter]="250"
+        [strokeWidth]="40"
+        >
+    </mat-progress-spinner>
+      <span class="timerText text-7xl align-content-center" style="position:absolute;padding:63px;" >{{nextPrayerIqama.valueOf() - now.valueOf() | date : "m:ss" }}</span>  
+    </div>
+  
+</section>
 </ng-template>
