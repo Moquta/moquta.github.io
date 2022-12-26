@@ -15,6 +15,11 @@
   }
 }
 
+@mixin highlight {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+}
+
 .grid-container {
   aspect-ratio: 9 / 16;
   background-color: var(--surface-300);
@@ -93,6 +98,26 @@
   flex-direction: column;
   gap: 0.75rem;
 
+  &--arabic {
+    .prayers__row {
+      flex-direction: row-reverse;
+
+      span {
+        &:nth-child(1) {
+          text-align: end;
+        }
+
+        &:nth-child(2) {
+          text-align: center;
+        }
+
+        &:nth-child(3) {
+          text-align: start;
+        }
+      }
+    }
+  }
+
   &__row {
     display: flex;
     flex-direction: row;
@@ -124,6 +149,7 @@
     &--highlighted {
       font-weight: 600;
       scale: 1.07;
+      @include highlight;
     }
   }
 }
@@ -131,45 +157,49 @@
 .additional-info {
   @include full-width;
   @include centered-flex-column;
+
+  &--highlighted {
+    @include highlight;
+  }
 }
 
-
-
-.countdown{
+.countdown {
   @include full-width;
-  @include centered-flex-column;
- 
-}
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 
-.mat-progress-spinner circle, .mat-spinner circle {
-  stroke: #650a13;
-}
-.progress-bar{
-  height:250px;
-  width: 250px;
-  border-radius: 50%;
-  stroke-width: 35px;
-  box-shadow: 6px 6px 10px -1px rgba(0,0,0,0.15), 
-              -6px -6px 10px -1px rgba(102, 70, 70, 0.7),
-              inset 4px 4px 6px -1px rgba(0,0,0,0.2),
-              inset -4px -4px 6px -1px rgba(53, 45, 45, 0.7),;
-}
+  &__spinner {
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 100%;
 
-.background-circle{
-  height: 180px;
-  width: 180px;
-  border-radius: 50%;
-  bottom:4.5%;
-  box-shadow: inset 4px 4px 6px -1px rgba(0,0,0,0.2),
-              inset -4px -4px 6px -1px rgba(53, 45, 45, 0.7),
-              -.5px -.5px 0px rgb(27, 21, 21), 
-              .5px .5px 0px  rgba(0,0,0,0.15),
-              0px 12px 10px -10px rgba(0,0,0,0.05);
-              
-}
+    &--progress {
+      border-radius: 50%;
+      grid-column: 1/-1;
+      grid-row: 1/-1;
+      z-index: 2;
+    }
 
-.timer-text{
-  @include centered-flex-column;
+    &--buffer {
+      grid-column: 1/-1;
+      grid-row: 1/-1;
+      z-index: 1;
+    }
+  }
+
+  &__text {
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px 1px #00000078;
+    grid-column: 1/-1;
+    grid-row: 1/-1;
+    height: 300px;
+    line-height: 300px;
+    text-align: center;
+    translate: 25px 25px;
+    width: 300px;
+    z-index: 3;
+  }
 }
 
 .loading-spinner {

@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 
 import {
-  IAdhanApiCityParams,
   IAdhanApiRepsonse,
   IPrayerTimesYearData,
   IAdhanApiBaseParams,
+  IAdhanApiParams,
 } from './adhan.model';
 
 const API_BASE_URL = 'https://api.aladhan.com/v1/';
@@ -17,10 +17,10 @@ export const DEFAULT_API_VALUES: IAdhanApiBaseParams = {
   annual: true,
   iso8601: false,
   latitudeAdjustmentMethod: 1,
-  method: 2,
+  method: "2",
   midnightMode: 0,
   month: CURRENT_DATE.getMonth(),
-  school: 0,
+  school: "0",
   tune: '0,0,0,0,0,0,0,0,0',
   year: CURRENT_DATE.getFullYear(),
 };
@@ -32,19 +32,19 @@ export class AdhanService {
   constructor(private cache: LocalStorageService) {}
 
   /**
-   * @function getPrayerTimesForYearByCity
-   * @param apiParams Configures the parameters - listed in {@link IAdhanApiCityParams} - to be sent with the API call.
+   * @function fetchPrayerTimes
+   * @param apiParams Configures the parameters - listed in {@link IAdhanApiParams} - to be sent with the API call.
    * @returns Promise containing prayer times for the entire year specified in the parameters.
    */
-  async getPrayerTimesForYearByCity(
-    apiParams: IAdhanApiCityParams
+  async fetchPrayerTimes(
+    apiParams: IAdhanApiParams
   ): Promise<IAdhanApiRepsonse<IPrayerTimesYearData>> {
     apiParams = { ...DEFAULT_API_VALUES, ...apiParams };
     apiParams.annual = true;
 
     const apiUrl =
       API_BASE_URL +
-      'calendarByCity?' +
+      'calendar?' +
       new URLSearchParams(JSON.parse(JSON.stringify(apiParams)));
 
     let cachedPrayerData = this.cache.getCachedData(apiUrl);

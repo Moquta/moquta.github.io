@@ -16,10 +16,10 @@ export interface IAdhanApiBaseParams {
   annual?: boolean;
   iso8601?: boolean;
   latitudeAdjustmentMethod?: number;
-  method?: number;
+  method?: string;
   midnightMode?: number;
   month?: number;
-  school?: number;
+  school?: string;
   shafaq?: string;
   tune?: string;
   year?: number;
@@ -47,8 +47,8 @@ export interface IAdhanApiAddressParams extends IAdhanApiBaseParams {
  * @param timezonestring A valid timezone name as specified on http://php.net/manual/en/timezones.php . Example: Europe/London. If you do not specify this, we'll calcuate it using the co-ordinates you provide.
  */
 export interface IAdhanApiParams extends IAdhanApiBaseParams {
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   timezonestring?: string;
 }
 

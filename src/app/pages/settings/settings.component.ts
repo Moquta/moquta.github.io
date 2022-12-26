@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { debounceTime, Subscription } from 'rxjs';
-import { Country, State, City } from 'country-state-city';
 
 import { IMoqutaSettings, SettingsService } from 'src/app/services';
 
@@ -20,15 +19,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
   @ViewChild('form', { static: true }) ngForm!: NgForm;
   constructor(private settingsService: SettingsService) {
     this.settings = this.settingsService.getSettings();
-    this.prayerTimesTune = this.settings.ApiParams.tune?.split(',') ?? [];
-    this.additionalInfo = this.settings.AdditionalInfo.map((value) => ({
+    this.prayerTimesTune = this.settings.apiParams.tune?.split(',') ?? [];
+    this.additionalInfo = this.settings.additionalInfo.map((value) => ({
       value,
     }));
   }
-
-  getAllCountries = Country.getAllCountries;
-  getStatesOfCountry = State.getStatesOfCountry;
-  getCitiesOfState = City.getCitiesOfState;
 
   ngOnInit(): void {
     this.formChanges$ = this.ngForm.form.valueChanges
@@ -36,16 +31,27 @@ export class SettingsComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.saveSettings();
       });
+
+      console.log(this.settings);
   }
 
   ngOnDestroy(): void {
     this.formChanges$?.unsubscribe();
   }
 
+  getLatLong(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.settings.apiParams.latitude = position.coords.latitude;
+        this.settings.apiParams.longitude = position.coords.longitude;
+      });
+    }
+  }
+
   saveSettings(): void {
     if (this.settings) {
-      this.settings.ApiParams.tune = this.prayerTimesTune.join(',');
-      this.settings.AdditionalInfo = this.additionalInfo.map(
+      this.settings.apiParams.tune = this.prayerTimesTune.join(',');
+      this.settings.additionalInfo = this.additionalInfo.map(
         (value) => value.value
       );
       this.settingsService.saveSettings(this.settings);
