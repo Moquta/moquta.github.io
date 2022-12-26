@@ -1,6 +1,7 @@
 <main
   class="grid-container p-3"
-  style="--color-primary:{{ settings.masjidPrimaryColor }}; 
+  style="
+  --color-primary:{{ settings.masjidPrimaryColor }}; 
   --color-secondary:{{ settings.masjidSecondaryColor }}"
 >
   <section class="header p-4 shadow-2">
@@ -88,6 +89,7 @@
       >
         <span>{{ settings.language === "en" ? "Sunrise" : "الشروق" }}</span>
         <span>{{ format24HTime(prayerData.timings.Sunrise) }}</span>
+        <span></span>
       </div>
       <div
         class="prayers__row shadow-3"
@@ -149,7 +151,8 @@
     </ng-container>
   </section>
 
-  <section *ngIf="!showCountdown; else countdown" 
+  <section
+    *ngIf="!showCountdown; else countdown"
     class="additional-info p-4 shadow-2"
     [ngClass]="{
       'additional-info--highlighted':
@@ -168,19 +171,22 @@
   </div>
 </ng-template>
 
-<ng-template #countdown >
-<section class="countdown p-4 shadow-2">
-  <div>
-    <mat-progress-spinner
-        class="progressBar"
-        [mode]="mode"
+<ng-template #countdown>
+  <section class="countdown p-4 shadow-2">
+    <div>
+      <mat-progress-spinner
+        class="progress-bar"
+        mode="determinate"
         [value]="progressbarValue"
         [diameter]="250"
         [strokeWidth]="40"
-        >
-    </mat-progress-spinner>
-      <span class="timerText text-7xl align-content-center" style="position:absolute;padding:63px;" >{{nextPrayerIqama.valueOf() - now.valueOf() | date : "m:ss" }}</span>  
+      >
+      </mat-progress-spinner>
+      <span
+        class="timer-text text-7xl align-content-center"
+        style="position: absolute; padding: 63px"
+        >{{ nextPrayerIqama.valueOf() - now.valueOf() | date : "m:ss" }}</span
+      >
     </div>
-  
-</section>
+  </section>
 </ng-template>

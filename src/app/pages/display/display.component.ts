@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 
-
-
 import * as dayjs from 'dayjs';
 
 import {
   AdhanService,
   IAdhanApiParams,
-  IAdhanApiCityParams,
-  IDailyPrayerTimes,
   IMoqutaSettings,
   IPrayerTimesDayData,
   IPrayerTimesYearData,
@@ -33,16 +29,14 @@ export class DisplayComponent {
   settings: IMoqutaSettings;
   prayerData!: IPrayerTimesDayData;
 
-  
-  get progressbarValue(): number{
-    if (this.showCountdown){
-      return (100 - ((this.nextPrayerIqama.valueOf() - this.now.valueOf())/120000)*100);
-      
-    }
-    else
-      return 100; 
+  get progressbarValue(): number {
+    if (this.showCountdown) {
+      return (
+        100 -
+        ((this.nextPrayerIqama.valueOf() - this.now.valueOf()) / 120000) * 100
+      );
+    } else return 100;
   }
-
 
   // TODO? Is there a better, more efficient way to do this?
   get nextPrayerIndex(): number {
@@ -108,6 +102,7 @@ export class DisplayComponent {
 
     return pIndex;
   }
+
   get nextPrayerTime(): string {
     let nextPrayerTime = this.prayerData.timings.Fajr;
     switch (this.nextPrayerIndex) {
@@ -134,16 +129,16 @@ export class DisplayComponent {
   }
 
   get nextPrayerIqama(): Date {
-    let nextPrayerIqama = this.calcIqamaTime(
+    let nextPrayerIqama = this.format24HTime(
       this.prayerData.timings.Fajr,
-      this.settings.IqamaTimings.Fajr
+      this.settings.iqamaOffset.Fajr
     );
     const format = 'HH:mm';
     switch (this.nextPrayerIndex) {
       case 0:
-        nextPrayerIqama = this.calcIqamaTime(
+        nextPrayerIqama = this.format24HTime(
           this.prayerData.timings.Fajr,
-          this.settings.IqamaTimings.Fajr,
+          this.settings.iqamaOffset.Fajr,
           format
         );
         break;
@@ -151,44 +146,46 @@ export class DisplayComponent {
         nextPrayerIqama = this.prayerData.timings.Sunrise;
         break;
       case 2:
-        nextPrayerIqama = this.calcIqamaTime(
+        nextPrayerIqama = this.format24HTime(
           this.prayerData.timings.Dhuhr,
-          this.settings.IqamaTimings.Dhuhr,
+          this.settings.iqamaOffset.Dhuhr,
           format
         );
         break;
       case 3:
-        nextPrayerIqama = this.calcIqamaTime(
+        nextPrayerIqama = this.format24HTime(
           this.prayerData.timings.Asr,
-          this.settings.IqamaTimings.Asr,
+          this.settings.iqamaOffset.Asr,
           format
         );
         break;
       case 4:
-        nextPrayerIqama = this.calcIqamaTime(
+        nextPrayerIqama = this.format24HTime(
           this.prayerData.timings.Maghrib,
-          this.settings.IqamaTimings.Maghrib,
+          this.settings.iqamaOffset.Maghrib,
           format
         );
         break;
       case 5:
-        nextPrayerIqama = this.calcIqamaTime(
+        nextPrayerIqama = this.format24HTime(
           this.prayerData.timings.Isha,
-          this.settings.IqamaTimings.Isha,
+          this.settings.iqamaOffset.Isha,
           format
         );
         break;
     }
-    return new Date(dayjs(this.today).format('YYYY-MM-DD').toString() + ' ' + nextPrayerIqama)
+    return new Date(
+      dayjs(this.today).format('YYYY-MM-DD').toString() + ' ' + nextPrayerIqama
+    );
   }
 
   get showCountdown(): boolean {
- 
     return (
       dayjs(this.now).isBefore(dayjs(this.nextPrayerIqama)) &&
-      dayjs(this.now).isAfter(dayjs(this.nextPrayerIqama).subtract(2, 'minutes'))
+      dayjs(this.now).isAfter(
+        dayjs(this.nextPrayerIqama).subtract(2, 'minutes')
+      )
     );
-    //dayjs(nextIqamaDate).toDate().valueOf() - this.now.valueOf()
   }
 
   constructor(
@@ -199,13 +196,15 @@ export class DisplayComponent {
     this.retrievePrayerTimes();
 
     setInterval(() => {
-      //this.now = dayjs(this.now).add(5, 'second').toDate();
-      this.now = new Date();
+      // this.now = new Date();
+      // this.now = dayjs(this.now).add(1, 'second').toDate();
+      this.now = new Date('2022-12-25 18:34');
+
       if (this.today.getDate() !== this.now.getDate()) {
         this.today = this.now;
         this.retrievePrayerTimes();
       }
-    }, 1000);
+    }, 1);
   }
 
   retrievePrayerTimes() {
