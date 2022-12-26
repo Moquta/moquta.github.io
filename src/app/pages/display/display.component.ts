@@ -196,9 +196,9 @@ export class DisplayComponent {
     this.retrievePrayerTimes();
 
     setInterval(() => {
-      // this.now = new Date();
+      this.now = new Date();
       // this.now = dayjs(this.now).add(1, 'second').toDate();
-      this.now = new Date('2022-12-25 18:34');
+      // this.now = new Date('2022-12-25 18:34');
 
       if (this.today.getDate() !== this.now.getDate()) {
         this.today = this.now;
